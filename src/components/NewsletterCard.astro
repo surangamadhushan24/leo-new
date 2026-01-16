@@ -1,0 +1,53 @@
+---
+export interface Props {
+  newsletter: any;
+}
+
+const { newsletter } = Astro.props;
+const { frontmatter } = newsletter;
+
+// Extract preview text from description or body
+const getPreview = () => {
+  if (frontmatter.description) {
+    return frontmatter.description.split(' ').slice(0, 30).join(' ');
+  }
+  return '';
+};
+
+// Get slug from file name or frontmatter
+const getSlug = () => {
+  const filePath = (newsletter as any).file || '';
+  // Split by forward or backslash and get the last part
+  const fileName = filePath.split(/[\/\\]/).pop() || '';
+  const slug = fileName.replace('.md', '').trim();
+  
+  if (slug) {
+    return slug;
+  }
+  return frontmatter.title?.toLowerCase().replace(/\s+/g, '-') || 'newsletter';
+};
+
+const preview = getPreview();
+const slug = getSlug();
+---
+
+<div class="card card-hover h-100">
+  {frontmatter.image && (
+    <img src={frontmatter.image} class="card-img-top" alt={frontmatter.title} style="height: 200px; object-fit: cover;">
+  )}
+  <div class="card-body">
+    {frontmatter.category && (
+      <span class="badge bg-warning text-dark mb-2">{frontmatter.category}</span>
+    )}
+    <h5 class="card-title">{frontmatter.title}</h5>
+    <p class="card-text text-muted">
+      {frontmatter.date ? new Date(frontmatter.date).toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      }) : ''}
+    </p>
+    <p class="card-text">{preview}{preview && '...'}</p>
+    <a href={`/newsletter/${slug}`} class="btn btn-outline-warning">Read More</a>
+  </div>
+</div>

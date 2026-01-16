@@ -1,0 +1,50 @@
+---
+export interface Props {
+  project: any;
+}
+
+const { project } = Astro.props;
+const { frontmatter } = project;
+
+// Extract preview text from description or body
+const getPreview = () => {
+  if (frontmatter.description) {
+    return frontmatter.description.split(' ').slice(0, 30).join(' ');
+  }
+  // Fallback to empty string if no description
+  return '';
+};
+
+// Get slug from file name or frontmatter
+const getSlug = () => {
+  if (project.file?.name) {
+    return project.file.name.replace('.md', '');
+  }
+  // Fallback to title slug
+  return frontmatter.title?.toLowerCase().replace(/\s+/g, '-') || 'project';
+};
+
+const preview = getPreview();
+const slug = getSlug();
+---
+
+<div class="card card-hover h-100">
+  {frontmatter.image && (
+    <img src={frontmatter.image} class="card-img-top" alt={frontmatter.title} style="height: 200px; object-fit: cover;">
+  )}
+  <div class="card-body">
+    {frontmatter.category && (
+      <span class="badge bg-warning text-dark mb-2">{frontmatter.category}</span>
+    )}
+    <h5 class="card-title">{frontmatter.title}</h5>
+    <p class="card-text text-muted">
+      {frontmatter.date ? new Date(frontmatter.date).toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      }) : ''}
+    </p>
+    <p class="card-text">{preview}{preview && '...'}</p>
+    <a href={`/projects/${slug}`} class="btn btn-outline-warning">Read More</a>
+  </div>
+</div>

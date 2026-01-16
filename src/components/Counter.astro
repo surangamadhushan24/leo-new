@@ -1,0 +1,58 @@
+---
+// Pure JavaScript Counter - No React needed
+
+export interface Props {
+  target: number;
+  duration?: number;
+  suffix?: string;
+}
+
+const { target, duration = 2000, suffix = '' } = Astro.props;
+---
+
+<span 
+  class="counter-display" 
+  data-target={target} 
+  data-duration={duration} 
+  data-suffix={suffix}
+>
+  0{suffix}
+</span>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const counters = document.querySelectorAll('.counter-display');
+    
+    counters.forEach((counter) => {
+      const counter_ = counter as HTMLElement;
+      const target = parseInt(counter_.getAttribute('data-target') || '0');
+      const duration = parseInt(counter_.getAttribute('data-duration') || '2000');
+      const suffix = counter_.getAttribute('data-suffix') || '';
+      
+      let start = 0;
+      const increment = target / (duration / 16); // 60fps
+      
+      const updateCounter = () => {
+        if (start < target) {
+          start += increment;
+          counter_.textContent = Math.floor(start) + suffix;
+          requestAnimationFrame(updateCounter);
+        } else {
+          counter_.textContent = target + suffix;
+        }
+      };
+      
+      // Start animation when element is in viewport
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            updateCounter();
+            observer.unobserve(entry.target);
+          }
+        });
+      });
+      
+      observer.observe(counter);
+    });
+  });
+</script>

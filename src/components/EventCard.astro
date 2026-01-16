@@ -1,0 +1,56 @@
+---
+export interface Props {
+  event: any;
+}
+
+const { event } = Astro.props;
+const { frontmatter } = event;
+
+// Get slug from file name or frontmatter
+const getSlug = () => {
+  if (event.file?.name) {
+    return event.file.name.replace('.md', '');
+  }
+  // Fallback to title slug
+  return frontmatter.title?.toLowerCase().replace(/\s+/g, '-') || 'event';
+};
+
+const slug = getSlug();
+---
+
+<div class="card card-hover h-100">
+  <div class="card-header bg-warning text-dark">
+    <h5 class="mb-0">{frontmatter.title}</h5>
+  </div>
+  <div class="card-body">
+    {frontmatter.image && (
+      <img src={frontmatter.image} class="img-fluid rounded mb-3" alt={frontmatter.title} style="height: 150px; width: 100%; object-fit: cover;">
+    )}
+    <ul class="list-group list-group-flush mb-3">
+      {frontmatter.date && (
+        <li class="list-group-item">
+          <i class="fas fa-calendar-day me-2 text-warning"></i>
+          {new Date(frontmatter.date).toLocaleDateString('en-US', { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+          })}
+        </li>
+      )}
+      {frontmatter.time && (
+        <li class="list-group-item">
+          <i class="fas fa-clock me-2 text-warning"></i>
+          {frontmatter.time}
+        </li>
+      )}
+      {frontmatter.location && (
+        <li class="list-group-item">
+          <i class="fas fa-map-marker-alt me-2 text-warning"></i>
+          {frontmatter.location}
+        </li>
+      )}
+    </ul>
+    <a href={`/events/${slug}`} class="btn btn-outline-warning">More Details</a>
+  </div>
+</div>
