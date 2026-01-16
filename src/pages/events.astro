@@ -1,0 +1,67 @@
+---
+import Layout from '../layouts/Layout.astro';
+import EventCard from '../components/EventCard.astro';
+
+const events = await Astro.glob('../content/events/*.md');
+const sortedEvents = events.sort((a, b) => {
+  const dateA = new Date(a.frontmatter.date || 0);
+  const dateB = new Date(b.frontmatter.date || 0);
+  return dateA.getTime() - dateB.getTime();
+});
+
+const upcomingEvents = sortedEvents.filter(event => {
+  const eventDate = new Date(event.frontmatter.date || 0);
+  return eventDate >= new Date();
+});
+
+const pastEvents = sortedEvents.filter(event => {
+  const eventDate = new Date(event.frontmatter.date || 0);
+  return eventDate < new Date();
+});
+---
+
+<Layout title="Events" description="Upcoming and past events of BG Leos">
+  <!-- Hero Section -->
+  <section class="bg-dark text-white py-5" style="margin-top: -76px; padding-top: 150px !important;">
+    <div class="container py-5 text-center">
+      <h1 class="display-4 fw-bold mb-4">Our Events</h1>
+      <p class="lead">Join us in activities that make a difference</p>
+    </div>
+  </section>
+
+  <!-- Upcoming Events -->
+  {upcomingEvents.length > 0 && (
+    <section class="py-5">
+      <div class="container py-5">
+        <h2 class="section-title">Upcoming Events</h2>
+        <div class="row">
+          {upcomingEvents.map(event => (
+            <div class="col-lg-4 col-md-6 mb-4">
+              <EventCard event={event} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Past Events -->
+  <section class="py-5 bg-light">
+    <div class="container py-5">
+      <h2 class="section-title">Past Events</h2>
+      <div class="row">
+        {pastEvents.length > 0 ? (
+          pastEvents.map(event => (
+            <div class="col-lg-4 col-md-6 mb-4">
+              <EventCard event={event} />
+            </div>
+          ))
+        ) : (
+          <div class="col-12 text-center">
+            <p class="lead">No past events recorded yet.</p>
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+</Layout>

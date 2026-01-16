@@ -1,0 +1,173 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+interface Newsletter {
+  file: string;
+  frontmatter: {
+    title: string;
+    date: string;
+    description: string;
+    category?: string;
+    image?: string;
+    anyflip_url?: string;
+  };
+  default: any;
+}
+
+export async function getStaticPaths(): Promise<any[]> {
+  const newsletters: any[] = await Astro.glob('../../content/newsletter/*.md');
+  
+  return newsletters.map((newsletter: any) => {
+    // Extract slug from file path - get the file name without .md extension
+    const filePath = (newsletter as any).file || '';
+    // Split by forward or backslash and get the last part
+    const fileName = filePath.split(/[\/\\]/).pop() || '';
+    const slug = fileName.replace('.md', '').trim();
+    
+    return {
+      params: { slug },
+      props: { newsletter }
+    };
+  });
+}
+
+interface Props {
+  newsletter: any;
+}
+
+const { newsletter } = Astro.props;
+const { Content, frontmatter } = newsletter;
+
+const date = new Date(frontmatter.date);
+const formattedDate = date.toLocaleDateString('en-US', { 
+  year: 'numeric', 
+  month: 'long', 
+  day: 'numeric' 
+});
+---
+
+<Layout title={frontmatter.title} description={frontmatter.description}>
+  <!-- Hero Section -->
+  <section class="bg-dark text-white py-5" style="margin-top: -76px; padding-top: 150px !important;">
+    <div class="container py-5">
+      <div class="breadcrumb breadcrumb-dark mb-4">
+        <a href="/newsletter" class="breadcrumb-item">Newsletter</a>
+        <span class="breadcrumb-item active">{frontmatter.title}</span>
+      </div>
+      <h1 class="display-4 fw-bold mb-3">{frontmatter.title}</h1>
+      <div class="d-flex gap-3 align-items-center">
+        <span class="fs-5">
+          <i class="far fa-calendar me-2"></i>{formattedDate}
+        </span>
+        {frontmatter.category && (
+          <span class="badge bg-warning text-dark fs-6">{frontmatter.category}</span>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <!-- Content Section -->
+  <section class="py-5">
+    <div class="container py-5">
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          {frontmatter.image && (
+            <img src={frontmatter.image} alt={frontmatter.title} class="img-fluid rounded shadow mb-5" style="height: auto; max-height: 400px; object-fit: cover; width: 100%;">
+          )}
+          
+          {frontmatter.anyflip_url ? (
+            <div class="anyflip-container mb-5">
+              <iframe 
+                src={frontmatter.anyflip_url} 
+                style="border: 1px solid #ccc; width: 100%; height: 600px;"
+                allowfullscreen
+              >
+              </iframe>
+            </div>
+          ) : (
+            <article class="newsletter-content">
+              <Content />
+            </article>
+          )}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Navigation Links -->
+  <section class="py-5 bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+          <a href="/newsletter" class="btn btn-warning btn-lg">Back to Newsletter</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .breadcrumb-dark {
+    background: none;
+    padding: 0;
+  }
+
+  .breadcrumb-dark .breadcrumb-item {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .breadcrumb-dark .breadcrumb-item a {
+    color: #ffc107;
+    text-decoration: none;
+  }
+
+  .breadcrumb-dark .breadcrumb-item a:hover {
+    text-decoration: underline;
+  }
+
+  .breadcrumb-dark .breadcrumb-item.active {
+    color: #ffffff;
+  }
+
+  .newsletter-content {
+    line-height: 1.8;
+    font-size: 1.1rem;
+    color: #333;
+  }
+
+  .newsletter-content h2 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: #1a1a1a;
+    font-weight: bold;
+  }
+
+  .newsletter-content h3 {
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    color: #333;
+    font-weight: 600;
+  }
+
+  .newsletter-content p {
+    margin-bottom: 1rem;
+  }
+
+  .newsletter-content ul {
+    margin-bottom: 1rem;
+    padding-left: 2rem;
+  }
+
+  .newsletter-content li {
+    margin-bottom: 0.5rem;
+  }
+
+  .newsletter-content a {
+    color: #ffc107;
+    text-decoration: none;
+  }
+
+  .newsletter-content a:hover {
+    text-decoration: underline;
+  }
+</style>

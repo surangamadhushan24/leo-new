@@ -1,0 +1,76 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Contact Us" description="Get in touch with BG Leos">
+  <!-- Hero Section -->
+  <section class="bg-dark text-white py-5" style="margin-top: -76px; padding-top: 150px !important;">
+    <div class="container py-5 text-center">
+      <h1 class="display-4 fw-bold mb-4">Contact Us</h1>
+      <p class="lead">Get in touch with the Leo Club of Baddegama</p>
+    </div>
+  </section>
+
+  <section class="py-5">
+    <div class="container py-5">
+      <div class="row">
+        <div class="col-lg-6 mb-5">
+          <h2 class="mb-4">Get In Touch</h2>
+          <form id="contact-form">
+            <div class="mb-3">
+              <label for="name" class="form-label">Name</label>
+              <input type="text" class="form-control" id="name" required>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control" id="email" required>
+            </div>
+            <div class="mb-3">
+              <label for="subject" class="form-label">Subject</label>
+              <input type="text" class="form-control" id="subject" required>
+            </div>
+            <div class="mb-3">
+              <label for="message" class="form-label">Message</label>
+              <textarea class="form-control" id="message" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-warning">Send Message</button>
+          </form>
+        </div>
+        
+        <div class="col-lg-6">
+          <h2 class="mb-4">Contact Information</h2>
+          <div class="mb-4">
+            <h5 class="text-warning"><i class="fas fa-map-marker-alt me-2"></i> Address</h5>
+            <p>Baddegama, Galle, Sri Lanka</p>
+          </div>
+          <div class="mb-4">
+            <h5 class="text-warning"><i class="fas fa-phone me-2"></i> Phone</h5>
+            <p>+94 77 123 4567</p>
+          </div>
+          <div class="mb-4">
+            <h5 class="text-warning"><i class="fas fa-envelope me-2"></i> Email</h5>
+            <p>info@bgleos.org</p>
+          </div>
+          <div class="mb-4">
+            <h5 class="text-warning"><i class="fas fa-clock me-2"></i> Meeting Times</h5>
+            <p>Every Sunday, 3:00 PM - 5:00 PM</p>
+            <p>Baddegama Community Center</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('contact-form');
+      if (form) {
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          alert('Thank you for your message! We will get back to you soon.');
+          (form as HTMLFormElement).reset();
+        });
+      }
+    });
+  </script>
+</Layout>

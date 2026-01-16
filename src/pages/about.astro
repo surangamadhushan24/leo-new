@@ -1,0 +1,154 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="About Us" description="Learn about BG Leos - Leo Club of Baddegama">
+  <!-- Hero Section -->
+  <section class="bg-dark text-white py-5" style="margin-top: -76px; padding-top: 150px !important;">
+    <div class="container py-5 text-center">
+      <h1 class="display-4 fw-bold mb-4">About BG Leos</h1>
+      <p class="lead">Leadership, Experience, Opportunity</p>
+    </div>
+  </section>
+
+  <!-- Mission & Vision -->
+  <section class="py-5">
+    <div class="container py-5">
+      <div class="row">
+        <div class="col-lg-6 mb-5 mb-lg-0">
+          <div class="card h-100 border-0 shadow">
+            <div class="card-body p-5">
+              <h3 class="card-title text-warning mb-4">Our Mission</h3>
+              <p class="card-text fs-5">
+                To provide the youth of Baddegama with opportunities for development, 
+                contributing to individual growth and community betterment through 
+                dedicated service projects and leadership experiences.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card h-100 border-0 shadow">
+            <div class="card-body p-5">
+              <h3 class="card-title text-warning mb-4">Our Vision</h3>
+              <p class="card-text fs-5">
+                To be the leading youth organization in Baddegama, recognized for 
+                nurturing responsible leaders who create sustainable positive change 
+                in their communities.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- History -->
+  <section class="py-5 bg-light">
+    <div class="container py-5">
+      <h2 class="section-title">Our History</h2>
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <p class="lead text-center mb-5">
+            Founded in 2018, BG Leos has been serving the Baddegama community for over 5 years.
+          </p>
+          
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-date">2018</div>
+              <div class="timeline-content">
+                <h4>Club Formation</h4>
+                <p>Leo Club of Baddegama was officially chartered with 25 founding members.</p>
+              </div>
+            </div>
+            
+            <div class="timeline-item">
+              <div class="timeline-date">2019</div>
+              <div class="timeline-content">
+                <h4>First Major Project</h4>
+                <p>Successfully organized the "Clean Baddegama" campaign, engaging 100+ volunteers.</p>
+              </div>
+            </div>
+            
+            <div class="timeline-item">
+              <div class="timeline-date">2021</div>
+              <div class="timeline-content">
+                <h4>Pandemic Response</h4>
+                <p>Distributed essential supplies to 500+ families affected by COVID-19.</p>
+              </div>
+            </div>
+            
+            <div class="timeline-item">
+              <div class="timeline-date">2023</div>
+              <div class="timeline-content">
+                <h4>5th Anniversary</h4>
+                <p>Celebrated 5 years of service with 85+ active members and 40+ completed projects.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Executive Committee -->
+  <section class="py-5">
+    <div class="container py-5">
+      <h2 class="section-title">Executive Committee 2023/24</h2>
+      
+      <div class="row">
+        <!-- Repeat for each committee member -->
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card border-0 shadow-sm text-center h-100">
+            <img src="/images/team/president.jpg" class="card-img-top" alt="President">
+            <div class="card-body">
+              <h5 class="card-title">John Doe</h5>
+              <p class="card-text text-warning">President</p>
+            </div>
+          </div>
+        </div>
+        <!-- Add more members similarly -->
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .timeline {
+      position: relative;
+      padding-left: 30px;
+    }
+    
+    .timeline:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--primary-color);
+    }
+    
+    .timeline-item {
+      position: relative;
+      margin-bottom: 30px;
+    }
+    
+    .timeline-item:before {
+      content: '';
+      position: absolute;
+      left: -36px;
+      top: 5px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--primary-color);
+      border: 3px solid white;
+    }
+    
+    .timeline-date {
+      font-weight: bold;
+      color: var(--primary-color);
+      margin-bottom: 5px;
+    }
+  </style>
+</Layout>

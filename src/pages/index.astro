@@ -1,11 +1,253 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import HeroCarousel from '../components/HeroCarousel.astro';
+import Counter from '../components/Counter.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import EventCard from '../components/EventCard.astro';
+import NewsletterCard from '../components/NewsletterCard.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// Fetch content
+let projects: any[] = [];
+let events: any[] = [];
+let newsletters: any[] = [];
+
+try {
+  projects = await Astro.glob('../content/projects/*.md');
+} catch (e) {
+  projects = [];
+}
+
+try {
+  events = await Astro.glob('../content/events/*.md');
+} catch (e) {
+  events = [];
+}
+
+try {
+  newsletters = await Astro.glob('../content/newsletter/*.md');
+} catch (e) {
+  newsletters = [];
+}
+
+// Sort by date, get latest 3
+const latestProjects = projects
+  .sort((a, b) => {
+    const dateA = new Date(a.frontmatter.date || 0);
+    const dateB = new Date(b.frontmatter.date || 0);
+    return dateB.getTime() - dateA.getTime();
+  })
+  .slice(0, 3);
+
+const upcomingEvents = events
+  .filter(event => {
+    const eventDate = new Date(event.frontmatter.date || 0);
+    return eventDate >= new Date();
+  })
+  .sort((a, b) => {
+    const dateA = new Date(a.frontmatter.date || 0);
+    const dateB = new Date(b.frontmatter.date || 0);
+    return dateA.getTime() - dateB.getTime();
+  })
+  .slice(0, 3);
+
+const latestNewsletters = newsletters
+  .sort((a, b) => {
+    const dateA = new Date(a.frontmatter.date || 0);
+    const dateB = new Date(b.frontmatter.date || 0);
+    return dateB.getTime() - dateA.getTime();
+  })
+  .slice(0, 3);
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Home" description="Leo Club of Baddegama - Leadership through service">
+  <!-- Hero Section -->
+  <HeroCarousel />
+
+  <!-- About Section -->
+  <section class="py-5">
+    <div class="container py-5">
+      <div class="row align-items-center">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+          <img src="/images/about.jpg" alt="About BG Leos" class="img-fluid rounded shadow">
+        </div>
+        <div class="col-lg-6">
+          <h2 class="section-title">About BG Leos</h2>
+          <p class="lead">We are a dynamic group of young leaders committed to making a positive impact in our community.</p>
+          <p>The Leo Club of Baddegama is part of the international Leo movement, providing young people with opportunities for development and contributions to society.</p>
+          <ul class="list-unstyled">
+            <li class="mb-2"><i class="fas fa-check-circle text-warning me-2"></i> Community service projects</li>
+            <li class="mb-2"><i class="fas fa-check-circle text-warning me-2"></i> Leadership development</li>
+            <li class="mb-2"><i class="fas fa-check-circle text-warning me-2"></i> Networking opportunities</li>
+            <li class="mb-2"><i class="fas fa-check-circle text-warning me-2"></i> Personal growth experiences</li>
+          </ul>
+          <a href="/about" class="btn btn-outline-warning mt-3">Read More</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Counter Section -->
+  <section class="bg-dark text-white py-5">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-3 col-6 mb-4">
+          <div class="counter-item">
+            <i class="fas fa-users fa-3x text-warning mb-3"></i>
+            <div class="counter-value display-4 fw-bold mb-2">
+              <Counter target={85} />
+            </div>
+            <div class="counter-text fs-5">Active Members</div>
+          </div>
+        </div>
+        <div class="col-md-3 col-6 mb-4">
+          <div class="counter-item">
+            <i class="fas fa-hand-holding-heart fa-3x text-warning mb-3"></i>
+            <div class="counter-value display-4 fw-bold mb-2">
+              <Counter target={42} />
+            </div>
+            <div class="counter-text fs-5">Projects Completed</div>
+          </div>
+        </div>
+        <div class="col-md-3 col-6 mb-4">
+          <div class="counter-item">
+            <i class="fas fa-calendar-check fa-3x text-warning mb-3"></i>
+            <div class="counter-value display-4 fw-bold mb-2">
+              <Counter target={36} />
+            </div>
+            <div class="counter-text fs-5">Events Organized</div>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="counter-item">
+            <i class="fas fa-donate fa-3x text-warning mb-3"></i>
+            <div class="counter-value display-4 fw-bold mb-2">
+              <Counter target={125} suffix="K+" />
+            </div>
+            <div class="counter-text fs-5">LKR Raised</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recent Projects -->
+  <section class="py-5 bg-light">
+    <div class="container py-5">
+      <div class="row mb-5">
+        <div class="col-12 text-center">
+          <h2 class="section-title">Our Recent Projects</h2>
+          <p class="lead">Making a difference in our community through meaningful initiatives</p>
+        </div>
+      </div>
+      
+      <div class="row">
+        {latestProjects.map(project => (
+          <div class="col-lg-4 col-md-6 mb-4">
+            <ProjectCard project={project} />
+          </div>
+        ))}
+      </div>
+      
+      <div class="text-center mt-4">
+        <a href="/projects" class="btn btn-warning btn-lg">View All Projects</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Upcoming Events -->
+  <section class="py-5">
+    <div class="container py-5">
+      <div class="row mb-5">
+        <div class="col-12 text-center">
+          <h2 class="section-title">Upcoming Events</h2>
+          <p class="lead">Join us in our upcoming activities and make a difference</p>
+        </div>
+      </div>
+      
+      <div class="row">
+        {upcomingEvents.length > 0 ? (
+          upcomingEvents.map(event => (
+            <div class="col-lg-4 col-md-6 mb-4">
+              <EventCard event={event} />
+            </div>
+          ))
+        ) : (
+          <div class="col-12 text-center">
+            <p class="lead">No upcoming events at the moment. Check back soon!</p>
+          </div>
+        )}
+      </div>
+      
+      <div class="text-center mt-4">
+        <a href="/events" class="btn btn-warning btn-lg">View All Events</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Latest Newsletter -->
+  <section class="py-5 bg-light">
+    <div class="container py-5">
+      <div class="row mb-5">
+        <div class="col-12 text-center">
+          <h2 class="section-title">Latest Newsletter</h2>
+          <p class="lead">Stay informed with our latest news and community updates</p>
+        </div>
+      </div>
+      
+      <div class="row">
+        {latestNewsletters.length > 0 ? (
+          latestNewsletters.map(newsletter => (
+            <div class="col-lg-4 col-md-6 mb-4">
+              <NewsletterCard newsletter={newsletter} />
+            </div>
+          ))
+        ) : (
+          <div class="col-12 text-center">
+            <p class="lead">No newsletters available yet. Check back soon!</p>
+          </div>
+        )}
+      </div>
+      
+      <div class="text-center mt-4">
+        <a href="/newsletter" class="btn btn-warning btn-lg">View More Newsletter</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter -->
+  <section class="bg-warning py-5">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+          <h3 class="fw-bold mb-3">Stay Updated</h3>
+          <p>Subscribe to our newsletter for the latest news and events.</p>
+        </div>
+        <div class="col-lg-6">
+          <form id="newsletter-form" class="d-flex">
+            <input type="email" class="form-control me-2" placeholder="Your email address" required>
+            <button type="submit" class="btn btn-dark">Subscribe</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ... rest of the file remains the same ... -->
+
+  <script>
+    // Newsletter form
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('newsletter-form');
+      if (form) {
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const input = form.querySelector('input[type="email"]') as HTMLInputElement;
+          if (input && input.value) {
+            alert(`Thank you for subscribing with: ${input.value}`);
+            (form as HTMLFormElement).reset();
+          }
+        });
+      }
+    });
+  </script>
 </Layout>

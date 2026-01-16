@@ -1,0 +1,81 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+
+const projects = await Astro.glob('../content/projects/*.md');
+const sortedProjects = projects.sort((a, b) => {
+  const dateA = new Date(a.frontmatter.date || 0);
+  const dateB = new Date(b.frontmatter.date || 0);
+  return dateB.getTime() - dateA.getTime();
+});
+
+const categories = [...new Set(projects.map(p => p.frontmatter.category).filter(Boolean))];
+---
+
+<Layout title="Projects" description="Our community service projects and initiatives">
+  <!-- Hero Section -->
+  <section class="bg-dark text-white py-5" style="margin-top: -76px; padding-top: 150px !important;">
+    <div class="container py-5 text-center">
+      <h1 class="display-4 fw-bold mb-4">Our Projects</h1>
+      <p class="lead">Making a tangible difference through community initiatives</p>
+    </div>
+  </section>
+
+  <!-- Projects Grid -->
+  <section class="py-5">
+    <div class="container py-5">
+      <!-- Category Filter -->
+      <div class="row mb-5">
+        <div class="col-12">
+          <div class="d-flex flex-wrap justify-content-center gap-2">
+            <button class="btn btn-outline-warning active filter-btn" data-filter="all">All Projects</button>
+            {categories.map(category => (
+              <button class="btn btn-outline-warning filter-btn" data-filter={category}>
+                {category}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- Projects -->
+      <div class="row" id="projects-container">
+        {sortedProjects.map(project => (
+          <div class="col-lg-4 col-md-6 mb-4 project-item" data-category={project.frontmatter.category || 'uncategorized'}>
+            <ProjectCard project={project} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ... rest of the file remains the same ... -->
+
+  <script>
+    // Category filtering
+    document.addEventListener('DOMContentLoaded', () => {
+      const filterButtons = document.querySelectorAll('.filter-btn');
+      const projectItems = document.querySelectorAll('.project-item');
+      
+      filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          // Update active button
+          filterButtons.forEach(btn => btn.classList.remove('active'));
+          button.classList.add('active');
+          
+          const filter = button.getAttribute('data-filter');
+          
+          projectItems.forEach(project => {
+            const category = project.getAttribute('data-category');
+            
+            if (filter === 'all' || category === filter) {
+              (project as HTMLElement).style.display = 'block';
+            } else {
+              (project as HTMLElement).style.display = 'none';
+            }
+          });
+        });
+      });
+    });
+  </script>
+</Layout>
