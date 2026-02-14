@@ -17,10 +17,14 @@ const getPreview = () => {
 
 // Get slug from file name or frontmatter
 const getSlug = () => {
-  if (project.file?.name) {
-    return project.file.name.replace('.md', '');
+  const filePath = (project as any).file || '';
+  // Split by forward or backslash and get the last part
+  const fileName = filePath.split(/[\/\\]/).pop() || '';
+  const slug = fileName.replace('.md', '').trim();
+  
+  if (slug) {
+    return slug;
   }
-  // Fallback to title slug
   return frontmatter.title?.toLowerCase().replace(/\s+/g, '-') || 'project';
 };
 

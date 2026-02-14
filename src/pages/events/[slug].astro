@@ -1,0 +1,296 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+interface Event {
+  file: string;
+  frontmatter: {
+    title: string;
+    date: string;
+    description: string;
+    location?: string;
+    time?: string;
+    image?: string;
+  };
+  default: any;
+}
+
+export async function getStaticPaths(): Promise<any[]> {
+  const events: any[] = await Astro.glob('../../content/events/*.md');
+  
+  return events.map((event: any) => {
+    // Extract slug from file path - get the file name without .md extension
+    const filePath = (event as any).file || '';
+    // Split by forward or backslash and get the last part
+    const fileName = filePath.split(/[\/\\]/).pop() || '';
+    const slug = fileName.replace('.md', '').trim();
+    
+    return {
+      params: { slug },
+      props: { event }
+    };
+  });
+}
+
+interface Props {
+  event: any;
+}
+
+const { event } = Astro.props;
+const { Content, frontmatter } = event;
+
+const date = new Date(frontmatter.date);
+const formattedDate = date.toLocaleDateString('en-US', { 
+  year: 'numeric', 
+  month: 'long', 
+  day: 'numeric' 
+});
+
+const formattedTime = date.toLocaleTimeString('en-US', { 
+  hour: '2-digit', 
+  minute: '2-digit' 
+});
+---
+
+<Layout title={frontmatter.title} description={frontmatter.description}>
+  <!-- Hero Section -->
+  <section class="hero-section bg-dark text-white py-5" style="margin-top: -76px; padding-top: 150px !important;">
+    <div class="container py-5">
+      <div class="breadcrumb breadcrumb-dark mb-4">
+        <a href="/events" class="breadcrumb-item">Events</a>
+        <span class="breadcrumb-item active">{frontmatter.title}</span>
+      </div>
+      <h1 class="display-4 fw-bold mb-3">{frontmatter.title}</h1>
+      <div class="d-flex gap-3 align-items-center flex-wrap">
+        {frontmatter.date && (
+          <span class="fs-5">
+            <i class="far fa-calendar me-2"></i>{formattedDate}
+          </span>
+        )}
+        {frontmatter.time && (
+          <span class="fs-5">
+            <i class="far fa-clock me-2"></i>{frontmatter.time}
+          </span>
+        )}
+        {frontmatter.location && (
+          <span class="fs-5">
+            <i class="fas fa-map-marker-alt me-2"></i>{frontmatter.location}
+          </span>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <!-- Content Section -->
+  <section class="content-section py-5">
+    <div class="container py-5">
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          {frontmatter.image && (
+            <div class="image-wrapper">
+              <img src={frontmatter.image} alt={frontmatter.title} class="img-fluid rounded shadow mb-5" style="width: 100%;">
+            </div>
+          )}
+          
+          <article class="event-content">
+            <Content />
+          </article>
+
+          {(frontmatter.location || frontmatter.time) && (
+            <div class="card event-details-card bg-light mt-5">
+              <div class="card-body">
+                <h5 class="card-title mb-4">
+                  <i class="fas fa-info-circle text-warning me-2"></i>Event Details
+                </h5>
+                <ul class="list-group list-group-flush">
+                  {frontmatter.date && (
+                    <li class="list-group-item bg-light border-0">
+                      <strong><i class="fas fa-calendar me-2 text-warning"></i>Date:</strong> 
+                      <span class="ms-2">{formattedDate}</span>
+                    </li>
+                  )}
+                  {frontmatter.time && (
+                    <li class="list-group-item bg-light border-0">
+                      <strong><i class="fas fa-clock me-2 text-warning"></i>Time:</strong> 
+                      <span class="ms-2">{frontmatter.time}</span>
+                    </li>
+                  )}
+                  {frontmatter.location && (
+                    <li class="list-group-item bg-light border-0">
+                      <strong><i class="fas fa-map-marker-alt me-2 text-warning"></i>Location:</strong> 
+                      <span class="ms-2">{frontmatter.location}</span>
+                    </li>
+                  )}
+                </ul>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Navigation Links -->
+  <section class="py-5 nav-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+          <a href="/events" class="btn btn-warning btn-lg back-btn">
+            <i class="fas fa-arrow-left me-2"></i>Back to Events
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .breadcrumb-dark {
+    background: none;
+    padding: 0;
+  }
+
+  .breadcrumb-dark .breadcrumb-item {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .breadcrumb-dark .breadcrumb-item a {
+    color: #ffc107;
+    text-decoration: none;
+  }
+
+  .breadcrumb-dark .breadcrumb-item a:hover {
+    text-decoration: underline;
+  }
+
+  .breadcrumb-dark .breadcrumb-item.active {
+    color: #ffffff;
+  }
+
+  .event-content {
+    line-height: 1.8;
+    font-size: 1.05rem;
+    color: #333;
+  }
+
+  .event-content h2 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: #1a1a1a;
+    font-weight: bold;
+    border-bottom: 3px solid #ffc107;
+    padding-bottom: 0.5rem;
+  }
+
+  .event-content h3 {
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    color: #333;
+    font-weight: 600;
+  }
+
+  .event-content p {
+    margin-bottom: 1rem;
+  }
+
+  .event-content ul {
+    margin-bottom: 1rem;
+    padding-left: 2rem;
+  }
+
+  .event-content ol {
+    margin-bottom: 1rem;
+    padding-left: 2rem;
+  }
+
+  .event-content li {
+    margin-bottom: 0.5rem;
+  }
+
+  .event-content a {
+    color: #ffc107;
+    text-decoration: none;
+  }
+
+  .event-content a:hover {
+    text-decoration: underline;
+  }
+
+  .event-content strong {
+    color: #1a1a1a;
+  }
+
+  .event-details-card {
+    border: 2px solid #ffc107 !important;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .event-details-card .card-title {
+    color: #1a1a1a;
+    font-size: 1.3rem;
+    font-weight: bold;
+  }
+
+  .event-details-card .list-group-item {
+    border-left: 4px solid #ffc107;
+    padding: 1rem;
+    font-size: 1rem;
+  }
+
+  .event-details-card .list-group-item strong {
+    color: #1a1a1a;
+  }
+
+  .nav-section {
+    background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+    border-top: 3px solid #ffc107;
+  }
+
+  .back-btn {
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(255, 193, 7, 0.2);
+  }
+
+  .back-btn:hover {
+    transform: translateX(-5px);
+    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.4);
+  }
+
+  .hero-section {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.1) 0%, rgba(0, 0, 0, 0.3) 100%);
+    pointer-events: none;
+  }
+
+  .hero-section .display-4 {
+    position: relative;
+    z-index: 1;
+  }
+
+  .content-section {
+    background: #ffffff;
+  }
+
+  .image-wrapper {
+    overflow: hidden;
+    border-radius: 12px;
+  }
+
+  .image-wrapper img {
+    transition: transform 0.3s ease;
+  }
+
+  .image-wrapper:hover img {
+    transform: scale(1.02);
+  }
+</style>

@@ -1,0 +1,260 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+interface Project {
+  file: string;
+  frontmatter: {
+    title: string;
+    date: string;
+    description: string;
+    category?: string;
+    image?: string;
+    impact?: string;
+  };
+  default: any;
+}
+
+export async function getStaticPaths(): Promise<any[]> {
+  const projects: any[] = await Astro.glob('../../content/projects/*.md');
+  
+  return projects.map((project: any) => {
+    // Extract slug from file path - get the file name without .md extension
+    const filePath = (project as any).file || '';
+    // Split by forward or backslash and get the last part
+    const fileName = filePath.split(/[\/\\]/).pop() || '';
+    const slug = fileName.replace('.md', '').trim();
+    
+    return {
+      params: { slug },
+      props: { project }
+    };
+  });
+}
+
+interface Props {
+  project: any;
+}
+
+const { project } = Astro.props;
+const { Content, frontmatter } = project;
+
+const date = new Date(frontmatter.date);
+const formattedDate = date.toLocaleDateString('en-US', { 
+  year: 'numeric', 
+  month: 'long', 
+  day: 'numeric' 
+});
+---
+
+<Layout title={frontmatter.title} description={frontmatter.description}>
+  <!-- Hero Section -->
+  <section class="hero-section bg-dark text-white py-5" style="margin-top: -76px; padding-top: 150px !important;">
+    <div class="container py-5">
+      <div class="breadcrumb breadcrumb-dark mb-4">
+        <a href="/projects" class="breadcrumb-item">Projects</a>
+        <span class="breadcrumb-item active">{frontmatter.title}</span>
+      </div>
+      <h1 class="display-4 fw-bold mb-3">{frontmatter.title}</h1>
+      <div class="d-flex gap-3 align-items-center flex-wrap">
+        <span class="fs-5">
+          <i class="far fa-calendar me-2"></i>{formattedDate}
+        </span>
+        {frontmatter.category && (
+          <span class="badge bg-warning text-dark fs-6">{frontmatter.category}</span>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <!-- Content Section -->
+  <section class="content-section py-5">
+    <div class="container py-5">
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          {frontmatter.image && (
+            <div class="image-wrapper">
+              <img src={frontmatter.image} alt={frontmatter.title} class="img-fluid rounded shadow mb-5" style="width: 100%;">
+            </div>
+          )}
+          
+          <article class="project-content">
+            <Content />
+          </article>
+
+          {frontmatter.impact && (
+            <div class="card impact-card mt-5">
+              <div class="card-body">
+                <h5 class="card-title mb-3">
+                  <i class="fas fa-star me-2"></i>Impact
+                </h5>
+                <p class="mb-0">{frontmatter.impact}</p>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Navigation Links -->
+  <section class="py-5 nav-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+          <a href="/projects" class="btn btn-warning btn-lg back-btn">
+            <i class="fas fa-arrow-left me-2"></i>Back to Projects
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .breadcrumb-dark {
+    background: none;
+    padding: 0;
+  }
+
+  .breadcrumb-dark .breadcrumb-item {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .breadcrumb-dark .breadcrumb-item a {
+    color: #ffc107;
+    text-decoration: none;
+  }
+
+  .breadcrumb-dark .breadcrumb-item a:hover {
+    text-decoration: underline;
+  }
+
+  .breadcrumb-dark .breadcrumb-item.active {
+    color: #ffffff;
+  }
+
+  .project-content {
+    line-height: 1.8;
+    font-size: 1.05rem;
+    color: #333;
+  }
+
+  .project-content h2 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: #1a1a1a;
+    font-weight: bold;
+    border-bottom: 3px solid #ffc107;
+    padding-bottom: 0.5rem;
+  }
+
+  .project-content h3 {
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    color: #333;
+    font-weight: 600;
+  }
+
+  .project-content p {
+    margin-bottom: 1rem;
+  }
+
+  .project-content ul {
+    margin-bottom: 1rem;
+    padding-left: 2rem;
+  }
+
+  .project-content ol {
+    margin-bottom: 1rem;
+    padding-left: 2rem;
+  }
+
+  .project-content li {
+    margin-bottom: 0.5rem;
+  }
+
+  .project-content a {
+    color: #ffc107;
+    text-decoration: none;
+  }
+
+  .project-content a:hover {
+    text-decoration: underline;
+  }
+
+  .project-content strong {
+    color: #1a1a1a;
+  }
+
+  .impact-card {
+    background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%) !important;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+  }
+
+  .impact-card .card-title {
+    color: #1a1a1a;
+    font-size: 1.3rem;
+    font-weight: bold;
+  }
+
+  .impact-card p {
+    color: #1a1a1a;
+    font-size: 1.05rem;
+    line-height: 1.6;
+  }
+
+  .nav-section {
+    background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+    border-top: 3px solid #ffc107;
+  }
+
+  .back-btn {
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(255, 193, 7, 0.2);
+  }
+
+  .back-btn:hover {
+    transform: translateX(-5px);
+    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.4);
+  }
+
+  .hero-section {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.1) 0%, rgba(0, 0, 0, 0.3) 100%);
+    pointer-events: none;
+  }
+
+  .hero-section .display-4 {
+    position: relative;
+    z-index: 1;
+  }
+
+  .content-section {
+    background: #ffffff;
+  }
+
+  .image-wrapper {
+    overflow: hidden;
+    border-radius: 12px;
+  }
+
+  .image-wrapper img {
+    transition: transform 0.3s ease;
+  }
+
+  .image-wrapper:hover img {
+    transform: scale(1.02);
+  }
+</style>

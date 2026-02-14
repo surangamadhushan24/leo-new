@@ -29,6 +29,7 @@ const { target, duration = 2000, suffix = '' } = Astro.props;
       const duration = parseInt(counter_.getAttribute('data-duration') || '2000');
       const suffix = counter_.getAttribute('data-suffix') || '';
       
+      
       let start = 0;
       const increment = target / (duration / 16); // 60fps
       
