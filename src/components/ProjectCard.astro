@@ -11,20 +11,15 @@ const getPreview = () => {
   if (frontmatter.description) {
     return frontmatter.description.split(' ').slice(0, 30).join(' ');
   }
-  // Fallback to empty string if no description
   return '';
 };
 
 // Get slug from file name or frontmatter
 const getSlug = () => {
   const filePath = (project as any).file || '';
-  // Split by forward or backslash and get the last part
   const fileName = filePath.split(/[\/\\]/).pop() || '';
   const slug = fileName.replace('.md', '').trim();
-  
-  if (slug) {
-    return slug;
-  }
+  if (slug) return slug;
   return frontmatter.title?.toLowerCase().replace(/\s+/g, '-') || 'project';
 };
 
@@ -32,23 +27,147 @@ const preview = getPreview();
 const slug = getSlug();
 ---
 
-<div class="card card-hover h-100">
-  {frontmatter.image && (
-    <img src={frontmatter.image} class="card-img-top" alt={frontmatter.title} style="height: 200px; object-fit: cover;">
-  )}
-  <div class="card-body">
-    {frontmatter.category && (
-      <span class="badge bg-warning text-dark mb-2">{frontmatter.category}</span>
+<div class="project-card h-100">
+  <div class="card-image-wrapper">
+    {frontmatter.image && (
+      <img src={frontmatter.image} class="card-img" alt={frontmatter.title}>
     )}
+    <div class="card-overlay"></div>
+    {frontmatter.category && (
+      <span class="category-badge">{frontmatter.category}</span>
+    )}
+  </div>
+  <div class="card-content">
     <h5 class="card-title">{frontmatter.title}</h5>
-    <p class="card-text text-muted">
-      {frontmatter.date ? new Date(frontmatter.date).toLocaleDateString('en-US', { 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric' 
-      }) : ''}
-    </p>
-    <p class="card-text">{preview}{preview && '...'}</p>
-    <a href={`/projects/${slug}`} class="btn btn-outline-warning">Read More</a>
+    {frontmatter.date && (
+      <p class="card-date">
+        <i class="fas fa-calendar-alt me-2"></i>
+        {new Date(frontmatter.date).toLocaleDateString('en-US', { 
+          year: 'numeric', 
+          month: 'short', 
+          day: 'numeric' 
+        })}
+      </p>
+    )}
+    <p class="card-description">{preview}{preview && '...'}</p>
+    <a href={`/projects/${slug}`} class="btn-read-more">
+      Read More <i class="fas fa-arrow-right ms-2"></i>
+    </a>
   </div>
 </div>
+
+<style>
+  .project-card {
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    transition: all 0.3s ease;
+    background: white;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .project-card:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 16px 40px rgba(196, 30, 58, 0.2);
+  }
+
+  .card-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+  }
+
+  .card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .project-card:hover .card-img {
+    transform: scale(1.08);
+  }
+
+  .card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.3) 100%);
+    transition: background 0.3s ease;
+  }
+
+  .project-card:hover .card-overlay {
+    background: linear-gradient(180deg, rgba(196, 30, 58, 0.2) 0%, rgba(196, 30, 58, 0.4) 100%);
+  }
+
+  .category-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: linear-gradient(135deg, #ffc107, #ffb300);
+    color: #1a1a2e;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+  }
+
+  .card-content {
+    padding: 24px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 12px;
+    line-height: 1.3;
+  }
+
+  .card-date {
+    font-size: 0.85rem;
+    color: #c41e3a;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+  }
+
+  .card-description {
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 16px;
+    flex-grow: 1;
+  }
+
+  .btn-read-more {
+    display: inline-flex;
+    align-items: center;
+    color: #ffc107;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+  }
+
+  .btn-read-more:hover {
+    color: #c41e3a;
+  }
+
+  .btn-read-more i {
+    transition: transform 0.3s ease;
+  }
+
+  .btn-read-more:hover i {
+    transform: translateX(4px);
+  }
+</style>

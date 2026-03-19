@@ -5,11 +5,13 @@ import Counter from '../components/Counter.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import EventCard from '../components/EventCard.astro';
 import NewsletterCard from '../components/NewsletterCard.astro';
+import ExecutiveCommitteeCarousel from '../components/ExecutiveCommitteeCarousel.astro';
 
 // Fetch content
 let projects: any[] = [];
 let events: any[] = [];
 let newsletters: any[] = [];
+let committeeMembers: any[] = [];
 
 try {
   projects = await Astro.glob('../content/projects/*.md');
@@ -29,7 +31,18 @@ try {
   newsletters = [];
 }
 
-// Sort by date, get latest 3
+try {
+  committeeMembers = await Astro.glob('../content/committee/*.md');
+} catch (e) {
+  committeeMembers = [];
+}
+
+// Sort committee members by file name to maintain order
+const sortedCommittee = committeeMembers.sort((a, b) => {
+  const fileA = (a as any).file || '';
+  const fileB = (b as any).file || '';
+  return fileA.localeCompare(fileB);
+});
 const latestProjects = projects
   .sort((a, b) => {
     const dateA = new Date(a.frontmatter.date || 0);
@@ -61,10 +74,12 @@ const latestNewsletters = newsletters
 
 <Layout title="Home" description="Leo Club of Baddegama - Leadership through service">
   <!-- Hero Section -->
-  <HeroCarousel />
+  <section id="home">
+    <HeroCarousel />
+  </section>
 
   <!-- About Section -->
-  <section class="py-5">
+  <section id="about" class="py-5">
     <div class="container py-5">
       <div class="row align-items-center">
         <div class="col-lg-6 mb-4 mb-lg-0">
@@ -131,7 +146,7 @@ const latestNewsletters = newsletters
   </section>
 
   <!-- Recent Projects -->
-  <section class="py-5" style="background-color: var(--light-bg);">
+  <section id="projects" class="py-5" style="background-color: var(--light-bg);">
     <div class="container py-5">
       <div class="row mb-5">
         <div class="col-12 text-center">
@@ -155,7 +170,7 @@ const latestNewsletters = newsletters
   </section>
 
   <!-- Upcoming Events -->
-  <section class="py-5">
+  <section id="events" class="py-5">
     <div class="container py-5">
       <div class="row mb-5">
         <div class="col-12 text-center">
@@ -185,7 +200,7 @@ const latestNewsletters = newsletters
   </section>
 
   <!-- Latest Newsletter -->
-  <section class="py-5" style="background-color: var(--light-bg);">
+  <section id="newsletter" class="py-5" style="background-color: var(--light-bg);">
     <div class="container py-5">
       <div class="row mb-5">
         <div class="col-12 text-center">
@@ -214,40 +229,33 @@ const latestNewsletters = newsletters
     </div>
   </section>
 
-  <!-- Newsletter CTA -->
-  <section style="background: linear-gradient(135deg, var(--primary-color) 0%, #e0a800 100%); padding: 60px 0;">
-    <div class="container">
-      <div class="row align-items-center">
-        <div class="col-lg-6 mb-4 mb-lg-0">
-          <h3 class="fw-bold mb-3" style="color: var(--secondary-color);">Stay Updated</h3>
-          <p style="color: var(--secondary-color);">Subscribe to our newsletter for the latest news and events from Leo Club of Baddegama.</p>
+
+  <!-- Executive Committee 2025/26 -->
+  <section id="committee" class="py-5">
+    <div class="container py-5">
+      <div class="row mb-5">
+        <div class="col-12 text-center">
+          <h2 class="section-title">Executive Committee 2025/26</h2>
+          <p class="lead text-secondary">Meet our dedicated leaders guiding the Leo Club</p>
         </div>
-        <div class="col-lg-6">
-          <form id="newsletter-form" class="d-flex gap-2">
-            <input type="email" class="form-control" placeholder="Your email address" required>
-            <button type="submit" class="btn" style="background-color: var(--secondary-color); color: white; font-weight: 600;">Subscribe</button>
-          </form>
-        </div>
+      </div>
+      
+      <div class="committee-carousel-wrapper">
+        {sortedCommittee.length > 0 ? (
+          <ExecutiveCommitteeCarousel members={sortedCommittee} />
+        ) : (
+          <div class="text-center">
+            <p class="lead">Committee information coming soon!</p>
+          </div>
+        )}
       </div>
     </div>
   </section>
 
-  <!-- ... rest of the file remains the same ... -->
+  <style is:inline>
+    .committee-carousel-wrapper {
+      margin-bottom: 40px;
+    }
+  </style>
 
-  <script>
-    // Newsletter form
-    document.addEventListener('DOMContentLoaded', () => {
-      const form = document.getElementById('newsletter-form');
-      if (form) {
-        form.addEventListener('submit', (e) => {
-          e.preventDefault();
-          const input = form.querySelector('input[type="email"]') as HTMLInputElement;
-          if (input && input.value) {
-            alert(`Thank you for subscribing with: ${input.value}`);
-            (form as HTMLFormElement).reset();
-          }
-        });
-      }
-    });
-  </script>
 </Layout>

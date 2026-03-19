@@ -1,0 +1,107 @@
+---
+interface Props {
+  name: string;
+  position: string;
+  image: string;
+}
+
+const { name, position, image } = Astro.props;
+---
+
+<div class="member-card">
+  <div class="member-image-wrapper">
+    <img src={image} alt={name} class="member-image">
+    <div class="member-overlay">
+      <div class="member-info-overlay">
+        <p class="member-position-overlay">{position}</p>
+      </div>
+    </div>
+  </div>
+  <div class="member-info">
+    <h5 class="member-name">{name}</h5>
+    <p class="member-position">{position}</p>
+  </div>
+</div>
+
+<style>
+  .member-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    text-align: center;
+  }
+
+  .member-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+  }
+
+  .member-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  }
+
+  .member-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .member-card:hover .member-image {
+    transform: scale(1.05);
+  }
+
+  .member-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(26, 26, 46, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .member-card:hover .member-overlay {
+    opacity: 1;
+  }
+
+  .member-info-overlay {
+    text-align: center;
+  }
+
+  .member-position-overlay {
+    color: #ffc107;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin: 0;
+  }
+
+  .member-info {
+    padding: 20px;
+  }
+
+  .member-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 8px;
+    margin-top: 0;
+  }
+
+  .member-position {
+    font-size: 0.9rem;
+    color: #ffc107;
+    font-weight: 600;
+    margin: 0;
+  }
+</style>
