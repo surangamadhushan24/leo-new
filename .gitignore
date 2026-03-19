@@ -22,21 +22,6 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
-# Images and media files
-public/images/**/*.jpg
-public/images/**/*.jpeg
-public/images/**/*.png
-public/images/**/*.gif
-public/images/**/*.svg
-public/images/**/*.webp
-public/images/**/*.mp4
-public/images/**/*.webm
-src/assets/**/*.jpg
-src/assets/**/*.jpeg
-src/assets/**/*.png
-src/assets/**/*.gif
-src/assets/**/*.svg
-src/assets/**/*.webp
 
 # IDE and editor files
 *.swp
