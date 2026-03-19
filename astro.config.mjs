@@ -5,8 +5,8 @@ import mdx from '@astrojs/mdx';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://surangamadhushan24.github.io/',
-  base: '/leo-new/',
+  site: 'https://bgleo.netlify.app/',
+  // No base path needed for Netlify root domain
   output: 'static',
   integrations: [react(), mdx()]
 });
