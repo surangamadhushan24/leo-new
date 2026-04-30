@@ -15,7 +15,7 @@ const eventsCollection = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
-    date: z.string(),
+    date: z.date(),
     description: z.string(),
     image: z.string().optional(),
   }),
@@ -25,7 +25,7 @@ const newsletterCollection = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
-    date: z.string(),
+    date: z.date(),
     description: z.string(),
   }),
 });
@@ -34,7 +34,7 @@ const projectsCollection = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
-    description: z.string(),
+    description: z.string().optional(),
     image: z.string().optional(),
   }),
 });
