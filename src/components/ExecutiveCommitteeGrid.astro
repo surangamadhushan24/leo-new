@@ -1,0 +1,354 @@
+---
+interface Props {
+  members: any[];
+}
+
+const { members } = Astro.props;
+---
+
+<div class="executive-committee">
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="header-decorations">
+        <div class="decoration-line decoration-gold"></div>
+        <div class="decoration-line decoration-red"></div>
+      </div>
+      <h2>Executive Committee 2025/26</h2>
+      <p>Meet the dedicated leaders guiding our organization towards excellence and community impact</p>
+    </div>
+
+    <!-- Members Grid -->
+    <div class="members-grid">
+      {members && members.length > 0 ? (
+        members.map((member, index) => (
+          <div class={`member-card card-${(index % 7) + 1}`}>
+            <div class="member-photo-container">
+              <img src={member.frontmatter.image} alt={member.frontmatter.name} class="member-photo" />
+              <div class="member-initials">{member.frontmatter.name.split(' ').map(n => n[0]).join('')}</div>
+              <span class="position-badge">{member.frontmatter.position}</span>
+            </div>
+            <div class="member-info">
+              <h3 class="member-name">{member.frontmatter.name}</h3>
+              <p class="member-bio">{member.frontmatter.bio || 'Dedicated leader contributing to our community'}</p>
+              <div class="member-footer">
+                {member.frontmatter.email && (
+                  <a href={`mailto:${member.frontmatter.email}`} class="member-email">{member.frontmatter.email}</a>
+                )}
+                <button class="view-profile-btn">View Profile</button>
+              </div>
+              <div class="social-icons">
+                <a href="#" class="social-icon" title="Email">✉</a>
+                <a href="#" class="social-icon" title="LinkedIn">in</a>
+                <a href="#" class="social-icon" title="Twitter">𝕏</a>
+              </div>
+            </div>
+          </div>
+        ))
+      ) : (
+        <div class="text-center" style="width: 100%; padding: 40px;">
+          <p>No committee members found</p>
+        </div>
+      )}
+    </div>
+  </div>
+</div>
+
+<style>
+  .executive-committee {
+    padding: 60px 20px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+
+  .header-decorations {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .decoration-line {
+    width: 50px;
+    height: 4px;
+    border-radius: 2px;
+  }
+
+  .decoration-gold {
+    background-color: #F4C430;
+  }
+
+  .decoration-red {
+    background-color: #E85D6A;
+  }
+
+  .header h2 {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .header p {
+    font-size: 1.1rem;
+    color: #666;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .members-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-bottom: 50px;
+  }
+
+  .member-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    animation: fadeInUp 0.6s ease forwards;
+  }
+
+  .member-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  }
+
+  .member-photo-container {
+    position: relative;
+    height: 280px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  .member-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .member-card:hover .member-photo {
+    transform: scale(1.05);
+  }
+
+  .member-initials {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 4rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.2);
+    text-align: center;
+    width: 100%;
+  }
+
+  .position-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: #F4C430;
+    color: #1a1a1a;
+    padding: 6px 15px;
+    border-radius: 25px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .member-card:hover .position-badge {
+    background-color: #FFD700;
+    transform: scale(1.1);
+  }
+
+  .member-info {
+    padding: 25px;
+  }
+
+  .member-name {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 5px;
+  }
+
+  .member-bio {
+    font-size: 0.95rem;
+    color: #666;
+    margin-bottom: 15px;
+    line-height: 1.5;
+    min-height: 45px;
+  }
+
+  .member-footer {
+    border-top: 2px solid #F4C430;
+    padding-top: 12px;
+    margin-top: 15px;
+  }
+
+  .member-email {
+    font-size: 0.85rem;
+    color: #888;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .member-email:hover {
+    color: #F4C430;
+  }
+
+  .view-profile-btn {
+    display: inline-block;
+    margin-top: 10px;
+    background-color: #F4C430;
+    color: #1a1a1a;
+    padding: 8px 20px;
+    border-radius: 25px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .view-profile-btn:hover {
+    background-color: #FFD700;
+    transform: translateX(3px);
+  }
+
+  .social-icons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 15px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .member-card:hover .social-icons {
+    opacity: 1;
+  }
+
+  .social-icon {
+    width: 36px;
+    height: 36px;
+    background-color: #F4C430;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #1a1a1a;
+    font-weight: bold;
+    transition: all 0.3s ease;
+  }
+
+  .social-icon:hover {
+    background-color: #FFD700;
+    transform: scale(1.15);
+  }
+
+  /* Color variations for different gradient backgrounds */
+  .card-1 .member-photo-container {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  .card-2 .member-photo-container {
+    background: linear-gradient(135deg, #F093FB 0%, #F5576C 100%);
+  }
+
+  .card-3 .member-photo-container {
+    background: linear-gradient(135deg, #4FACFE 0%, #00F2FE 100%);
+  }
+
+  .card-4 .member-photo-container {
+    background: linear-gradient(135deg, #43E97B 0%, #38F9D7 100%);
+  }
+
+  .card-5 .member-photo-container {
+    background: linear-gradient(135deg, #FA709A 0%, #FEE140 100%);
+  }
+
+  .card-6 .member-photo-container {
+    background: linear-gradient(135deg, #A8EDEA 0%, #FED6E3 100%);
+  }
+
+  .card-7 .member-photo-container {
+    background: linear-gradient(135deg, #FF9A56 0%, #FF6A88 100%);
+  }
+
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .header h2 {
+      font-size: 2rem;
+    }
+
+    .members-grid {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .member-photo-container {
+      height: 220px;
+    }
+
+    .member-initials {
+      font-size: 3rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .header h2 {
+      font-size: 1.5rem;
+    }
+
+    .members-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .executive-committee {
+      padding: 20px 10px;
+    }
+  }
+
+  /* Animation for page load */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .member-card:nth-child(1) { animation-delay: 0.1s; }
+  .member-card:nth-child(2) { animation-delay: 0.2s; }
+  .member-card:nth-child(3) { animation-delay: 0.3s; }
+  .member-card:nth-child(4) { animation-delay: 0.4s; }
+  .member-card:nth-child(5) { animation-delay: 0.5s; }
+  .member-card:nth-child(6) { animation-delay: 0.6s; }
+  .member-card:nth-child(7) { animation-delay: 0.7s; }
+</style>

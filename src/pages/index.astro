@@ -6,6 +6,7 @@ import ProjectCard from '../components/ProjectCard.astro';
 import EventCard from '../components/EventCard.astro';
 import NewsletterCard from '../components/NewsletterCard.astro';
 import ExecutiveCommitteeCarousel from '../components/ExecutiveCommitteeCarousel.astro';
+import ExecutiveCommitteeGrid from '../components/ExecutiveCommitteeGrid.astro';
 
 // Fetch content
 let projects: any[] = [];
@@ -32,7 +33,14 @@ try {
 }
 
 try {
-  committeeMembers = await Astro.glob('../content/committee/*.md');
+  const committeeModules = import.meta.glob('../content/committee/*.md');
+  const committeePaths = Object.keys(committeeModules);
+  committeeMembers = await Promise.all(
+    committeePaths.map(async (path) => {
+      const module = await committeeModules[path]();
+      return { ...module, file: path };
+    })
+  );
 } catch (e) {
   committeeMembers = [];
 }
@@ -231,23 +239,26 @@ const latestNewsletters = newsletters
 
 
   <!-- Executive Committee 2025/26 -->
-  <section id="committee" class="py-5">
-    <div class="container py-5">
-      <div class="row mb-5">
-        <div class="col-12 text-center">
-          <h2 class="section-title">Executive Committee 2025/26</h2>
-          <p class="lead text-secondary">Meet our dedicated leaders guiding the Leo Club</p>
-        </div>
-      </div>
-      
-      <div class="committee-carousel-wrapper">
+  <section id="committee" class="py-5" style="padding: 0; background: transparent; position: relative; overflow: hidden;">
+
+      <div class="committee-grid-wrapper">
         {sortedCommittee.length > 0 ? (
-          <ExecutiveCommitteeCarousel members={sortedCommittee} />
+          <ExecutiveCommitteeGrid members={sortedCommittee} />
         ) : (
-          <div class="text-center">
-            <p class="lead">Committee information coming soon!</p>
+          <div class="text-center" style="padding: 60px 20px;">
+            <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #ffc107, #ffb300); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 20px; box-shadow: 0 8px 25px rgba(255, 193, 7, 0.3);">
+              <i class="fas fa-users fa-2x" style="color: #1a1a2e;"></i>
+            </div>
+            <h4 style="color: #1a1a2e; font-weight: 700; margin-bottom: 10px;">Committee Coming Soon</h4>
+            <p class="lead" style="color: #6b7280;">Our executive committee information will be available shortly.</p>
           </div>
         )}
+      </div>
+
+      <div class="text-center mt-5">
+        <a href="/about" class="btn btn-warning btn-lg" style="font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 14px 32px; font-size: 1rem; box-shadow: 0 8px 25px rgba(255, 193, 7, 0.4); transition: all 0.3s ease;">
+          Meet All Members
+        </a>
       </div>
     </div>
   </section>
