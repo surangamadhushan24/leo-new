@@ -1,7 +1,7 @@
 ---
 title: "Baddegama Community Cleanup"
 date: 2023-03-15
-image: "/images/project-cleanup.jpg"
+image: "/images/news1.jpg"
 category: "Environment"
 impact: "Cleaned 5km of roads, engaged 50+ volunteers"
 ---

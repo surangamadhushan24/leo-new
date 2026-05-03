@@ -6,7 +6,6 @@ export interface Props {
 const { project } = Astro.props;
 const { frontmatter } = project;
 
-// Extract preview text from description or body
 const getPreview = () => {
   if (frontmatter.description) {
     return frontmatter.description.split(' ').slice(0, 30).join(' ');
@@ -14,7 +13,6 @@ const getPreview = () => {
   return '';
 };
 
-// Get slug from file name or frontmatter
 const getSlug = () => {
   const filePath = (project as any).file || '';
   const fileName = filePath.split(/[\/\\]/).pop() || '';
@@ -28,202 +26,162 @@ const slug = getSlug();
 ---
 
 <div class="project-card h-100">
-  <div class="card-image-wrapper">
-    {frontmatter.image && (
-      <img src={frontmatter.image} class="card-img" alt={frontmatter.title}>
+  <div class="project-hero">
+    {frontmatter.image ? (
+      <img src={frontmatter.image} class="project-image" alt={frontmatter.title} />
+    ) : (
+      <div class="project-image project-image-fallback"></div>
     )}
-    <div class="card-overlay"></div>
-    {frontmatter.category && (
-      <span class="category-badge">{frontmatter.category}</span>
+    <div class="project-hero-overlay"></div>
+    {frontmatter.category && <span class="project-category">{frontmatter.category}</span>}
+    {frontmatter.date && (
+      <span class="project-date-pill">
+        <i class="fas fa-calendar-alt"></i>
+        {new Date(frontmatter.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+      </span>
     )}
   </div>
-  <div class="card-content">
-    <h5 class="card-title">{frontmatter.title}</h5>
-    {frontmatter.date && (
-      <p class="card-date">
-        <i class="fas fa-calendar-alt me-2"></i>
-        {new Date(frontmatter.date).toLocaleDateString('en-US', { 
-          year: 'numeric', 
-          month: 'short', 
-          day: 'numeric' 
-        })}
-      </p>
-    )}
-    <p class="card-description">{preview}{preview && '...'}</p>
-    <a href={`/projects/${slug}`} class="btn-read-more">
-      Read More <i class="fas fa-arrow-right ms-2"></i>
-    </a>
+
+  <div class="project-info">
+    <h5 class="project-title">{frontmatter.title}</h5>
+    <p class="project-description">{preview}{preview && '...'}</p>
+    <div class="project-footer">
+      <a href={`/projects/${slug}`} class="project-cta">
+        Explore Project <i class="fas fa-arrow-right"></i>
+      </a>
+    </div>
   </div>
 </div>
 
 <style>
   .project-card {
     border: none;
-    border-radius: 16px;
+    border-radius: 24px;
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     background: white;
     display: flex;
     flex-direction: column;
+    min-height: 100%;
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
     position: relative;
-  }
-
-  .project-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(to right, #ffc107, #c41e3a);
-    transform: scaleX(0);
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    transform-origin: left;
-    z-index: 10;
-  }
-
-  .project-card:hover::before {
-    transform: scaleX(1);
   }
 
   .project-card:hover {
-    transform: translateY(-16px);
-    box-shadow: 0 20px 50px rgba(196, 30, 58, 0.2);
+    transform: translateY(-14px);
+    box-shadow: 0 26px 60px rgba(15, 23, 42, 0.14);
   }
 
-  .card-image-wrapper {
+  .project-hero {
     position: relative;
-    width: 100%;
-    height: 240px;
+    height: 260px;
     overflow: hidden;
+    background: #f3f4f6;
   }
 
-  .card-img {
+  .project-image,
+  .project-image-fallback {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    display: block;
   }
 
-  .project-card:hover .card-img {
-    transform: scale(1.12);
+  .project-image-fallback {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   }
 
-  .card-overlay {
+  .project-card:hover .project-image {
+    transform: scale(1.08);
+  }
+
+  .project-hero-overlay {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.3) 100%);
-    transition: background 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    inset: 0;
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.08) 0%, rgba(15, 23, 42, 0.32) 100%);
   }
 
-  .project-card:hover .card-overlay {
-    background: linear-gradient(180deg, rgba(196, 30, 58, 0.25) 0%, rgba(196, 30, 58, 0.5) 100%);
-  }
-
-  .category-badge {
+  .project-category {
     position: absolute;
-    top: 16px;
-    right: 16px;
-    background: linear-gradient(135deg, #ffc107, #ffb300);
-    color: #1a1a2e;
-    padding: 8px 16px;
-    border-radius: 24px;
-    font-size: 0.7rem;
+    top: 18px;
+    left: 18px;
+    background: rgba(255, 255, 255, 0.95);
+    color: #111827;
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-size: 0.75rem;
     font-weight: 700;
-    box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    transition: all 0.3s ease;
+    box-shadow: 0 15px 40px rgba(15, 23, 42, 0.08);
   }
 
-  .project-card:hover .category-badge {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 25px rgba(255, 193, 7, 0.5);
-  }
-
-  .card-content {
-    padding: 28px;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .card-title {
-    font-size: 1.3rem;
-    font-weight: 800;
-    color: #1a1a2e;
-    margin-bottom: 14px;
-    line-height: 1.4;
-    letter-spacing: -0.5px;
-    transition: color 0.3s ease;
-  }
-
-  .project-card:hover .card-title {
-    color: #c41e3a;
-  }
-
-  .card-date {
-    font-size: 0.85rem;
-    color: #c41e3a;
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
+  .project-date-pill {
+    position: absolute;
+    bottom: 18px;
+    left: 18px;
+    background: rgba(255, 255, 255, 0.95);
+    color: #1f2937;
+    padding: 10px 16px;
+    border-radius: 14px;
+    font-size: 0.8rem;
     font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  .card-description {
-    color: #6b7280;
-    font-size: 0.95rem;
-    line-height: 1.7;
-    margin-bottom: 20px;
-    flex-grow: 1;
-  }
-
-  .btn-read-more {
     display: inline-flex;
     align-items: center;
-    color: #ffc107;
-    text-decoration: none;
+    gap: 8px;
+    box-shadow: 0 15px 40px rgba(15, 23, 42, 0.1);
+  }
+
+  .project-info {
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    flex-grow: 1;
+  }
+
+  .project-title {
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: #111827;
+    margin: 0;
+    line-height: 1.25;
+    letter-spacing: -0.5px;
+  }
+
+  .project-description {
+    color: #4b5563;
+    font-size: 1rem;
+    line-height: 1.8;
+    margin: 0;
+    flex-grow: 1;
+  }
+
+  .project-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .project-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 22px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #ffc107, #ffb300);
+    color: #1f2937;
     font-weight: 700;
-    font-size: 0.95rem;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    position: relative;
+    box-shadow: 0 12px 24px rgba(255, 193, 7, 0.18);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
 
-  .btn-read-more::after {
-    content: '';
-    position: absolute;
-    bottom: -3px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: #ffc107;
-    transition: width 0.3s ease;
-  }
-
-  .btn-read-more:hover {
-    color: #c41e3a;
-  }
-
-  .btn-read-more:hover::after {
-    width: 100%;
-    background: #c41e3a;
-  }
-
-  .btn-read-more i {
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    margin-left: 8px;
-  }
-
-  .btn-read-more:hover i {
-    transform: translateX(6px);
+  .project-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 32px rgba(255, 193, 7, 0.25);
   }
 </style>

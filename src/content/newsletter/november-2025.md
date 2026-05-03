@@ -1,7 +1,7 @@
 ---
 title: "November 2025 Community Impact Report"
 date: 2025-11-20
-image: "/images/newsletter-nov-2025.jpg"
+image: "/images/n7.jpg"
 category: "Monthly Update"
 description: "November was a month of growth and impact. Learn about our community outreach programs, youth development initiatives, and how our members made a difference."
 anyflip_url: "https://anyflip.com/bqqcm/aldx/"

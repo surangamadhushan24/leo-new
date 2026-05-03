@@ -1,7 +1,7 @@
 ---
-name: Samantha Rose
+name: Tharusha Nirmani
 position: Treasurer
-image: /images/team/member-04.svg
+image: /images/team/tharusha.jpeg
 bio: Finance and planning leader ensuring sustainable growth
 email: samantha@bgleos.org
 ---

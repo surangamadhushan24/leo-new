@@ -6,7 +6,6 @@ import ProjectCard from '../components/ProjectCard.astro';
 import EventCard from '../components/EventCard.astro';
 import NewsletterCard from '../components/NewsletterCard.astro';
 import ExecutiveCommitteeCarousel from '../components/ExecutiveCommitteeCarousel.astro';
-import ExecutiveCommitteeGrid from '../components/ExecutiveCommitteeGrid.astro';
 
 // Fetch content
 let projects: any[] = [];
@@ -38,7 +37,7 @@ try {
   committeeMembers = await Promise.all(
     committeePaths.map(async (path) => {
       const module = await committeeModules[path]();
-      return { ...module, file: path };
+      return { ...(module as any), file: path };
     })
   );
 } catch (e) {
@@ -51,6 +50,7 @@ const sortedCommittee = committeeMembers.sort((a, b) => {
   const fileB = (b as any).file || '';
   return fileA.localeCompare(fileB);
 });
+const visibleCommittee = sortedCommittee.slice(0, 6);
 const latestProjects = projects
   .sort((a, b) => {
     const dateA = new Date(a.frontmatter.date || 0);
@@ -87,23 +87,102 @@ const latestNewsletters = newsletters
   </section>
 
   <!-- About Section -->
-  <section id="about" class="py-5">
-    <div class="container py-5">
+  <section id="about" class="py-5 position-relative overflow-hidden" style="background: linear-gradient(135deg, var(--light-bg) 0%, rgba(255,193,7,0.05) 50%, var(--lighter-bg) 100%);">
+    <!-- Background Pattern -->
+    <div class="position-absolute top-0 start-0 w-100 h-100 opacity-25" style="background-image: radial-gradient(circle at 25% 25%, rgba(255,193,7,0.1) 0%, transparent 50%), radial-gradient(circle at 75% 75%, rgba(196,30,58,0.1) 0%, transparent 50%);"></div>
+
+    <div class="container py-5 position-relative">
       <div class="row align-items-center">
+        <!-- Image Column -->
         <div class="col-lg-6 mb-4 mb-lg-0">
-          <img src="/images/about.jpg" alt="About BG Leos" class="img-fluid rounded shadow">
+          <div class="position-relative">
+            <div class="about-image-container">
+              <img src="/images/logo.png" alt="About BG Leos" class="img-fluid rounded-4 shadow-lg about-image">
+              <!-- Decorative Elements -->
+              <div class="position-absolute top-0 start-0 translate-middle">
+                <div class="decorative-circle bg-gradient-primary opacity-75"></div>
+              </div>
+              <div class="position-absolute bottom-0 end-0 translate-middle">
+                <div class="decorative-circle bg-gradient-accent opacity-75"></div>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <!-- Content Column -->
         <div class="col-lg-6">
-          <h2 class="section-title">About BG Leos</h2>
-          <p class="lead">We are a dynamic group of young leaders committed to making a positive impact in our community.</p>
-          <p>The Leo Club of Baddegama is part of the international Leo movement, providing young people with opportunities for development and contributions to society.</p>
-          <ul class="list-unstyled">
-            <li class="mb-2"><i class="fas fa-check-circle text-warning me-2"></i> Community service projects</li>
-            <li class="mb-2"><i class="fas fa-check-circle text-warning me-2"></i> Leadership development</li>
-            <li class="mb-2"><i class="fas fa-check-circle text-warning me-2"></i> Networking opportunities</li>
-            <li class="mb-2"><i class="fas fa-check-circle text-warning me-2"></i> Personal growth experiences</li>
-          </ul>
-          <a href="/about" class="btn btn-outline-warning mt-3">Read More</a>
+          <div class="about-content">
+            <div class="mb-4">
+              <span class="badge badge-primary mb-3 d-inline-block">About Us</span>
+              <h2 class="section-title text-start mb-4" style="margin-bottom: 2rem !important;">About BG Leos</h2>
+            </div>
+
+            <p class="lead text-secondary mb-4 fs-5 lh-base">
+              We are a dynamic group of young leaders committed to making a positive impact in our community through service, leadership, and friendship.
+            </p>
+
+            <p class="text-muted mb-4 fs-6 lh-base">
+              The Leo Club of Baddegama is part of the international Leo movement, providing young people with opportunities for development and contributions to society. We believe in the power of collective action to create lasting change.
+            </p>
+
+            <!-- Feature List -->
+            <div class="row g-3 mb-4">
+              <div class="col-md-6">
+                <div class="feature-item d-flex align-items-center p-3 rounded-3 bg-white shadow-sm transition-all">
+                  <div class="feature-icon me-3">
+                    <i class="fas fa-hand-holding-heart text-warning fs-4"></i>
+                  </div>
+                  <div>
+                    <h6 class="mb-0 fw-bold text-secondary">Community Service</h6>
+                    <small class="text-muted">Making a difference together</small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="feature-item d-flex align-items-center p-3 rounded-3 bg-white shadow-sm transition-all">
+                  <div class="feature-icon me-3">
+                    <i class="fas fa-users text-warning fs-4"></i>
+                  </div>
+                  <div>
+                    <h6 class="mb-0 fw-bold text-secondary">Leadership Development</h6>
+                    <small class="text-muted">Growing future leaders</small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="feature-item d-flex align-items-center p-3 rounded-3 bg-white shadow-sm transition-all">
+                  <div class="feature-icon me-3">
+                    <i class="fas fa-network-wired text-warning fs-4"></i>
+                  </div>
+                  <div>
+                    <h6 class="mb-0 fw-bold text-secondary">Networking</h6>
+                    <small class="text-muted">Building connections</small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="feature-item d-flex align-items-center p-3 rounded-3 bg-white shadow-sm transition-all">
+                  <div class="feature-icon me-3">
+                    <i class="fas fa-seedling text-warning fs-4"></i>
+                  </div>
+                  <div>
+                    <h6 class="mb-0 fw-bold text-secondary">Personal Growth</h6>
+                    <small class="text-muted">Continuous development</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- CTA Button -->
+            <div class="d-flex gap-3 flex-wrap">
+              <a href="/about" class="btn btn-warning btn-lg px-4 py-3 fw-bold">
+                <i class="fas fa-info-circle me-2"></i>Learn More About Us
+              </a>
+              <a href="/join" class="btn btn-outline-primary btn-lg px-4 py-3 fw-bold">
+                <i class="fas fa-user-plus me-2"></i>Join Our Community
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -138,15 +217,6 @@ const latestNewsletters = newsletters
               <Counter target={36} />
             </div>
             <div class="counter-text fs-5">Events Organized</div>
-          </div>
-        </div>
-        <div class="col-md-3 col-6">
-          <div class="counter-item">
-            <i class="fas fa-donate fa-3x text-warning mb-3"></i>
-            <div class="counter-value display-4 fw-bold mb-2">
-              <Counter target={125} suffix="K+" />
-            </div>
-            <div class="counter-text fs-5">LKR Raised</div>
           </div>
         </div>
       </div>
@@ -242,8 +312,8 @@ const latestNewsletters = newsletters
   <section id="committee" class="py-5" style="padding: 0; background: transparent; position: relative; overflow: hidden;">
 
       <div class="committee-grid-wrapper">
-        {sortedCommittee.length > 0 ? (
-          <ExecutiveCommitteeGrid members={sortedCommittee} />
+        {visibleCommittee.length > 0 ? (
+          <ExecutiveCommitteeCarousel members={visibleCommittee} />
         ) : (
           <div class="text-center" style="padding: 60px 20px;">
             <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #ffc107, #ffb300); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 20px; box-shadow: 0 8px 25px rgba(255, 193, 7, 0.3);">

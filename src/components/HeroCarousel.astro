@@ -1,69 +1,425 @@
----
-// Hero Carousel Component - Fixed version
+﻿---
 ---
 
-<div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
-  <div class="carousel-indicators">
-    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
-    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
-    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
-  </div>
-  
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img src="/images/hero-1.jpg" class="d-block w-100" alt="Leadership Through Service" style="height: 90vh; object-fit: cover;">
-      <div class="carousel-caption d-flex flex-column justify-content-center h-100">
-        <h5 class="text-uppercase fw-bold mb-4" style="letter-spacing: 3px;">WE'll Serve Our Community</h5>
-        <h1 class="display-3 mb-4">Leadership Through Service</h1>
-        <p class="mb-5 fs-5">Join us in making a difference in Baddegama and beyond</p>
-        <div>
-          <a href="/join" class="btn btn-warning px-5 py-3">Join With Us</a>
-        </div>
-      </div>
-    </div>
-    
-    <div class="carousel-item">
-      <img src="/images/hero-2.jpg" class="d-block w-100" alt="Community Projects" style="height: 90vh; object-fit: cover;">
-      <div class="carousel-caption d-flex flex-column justify-content-center h-100">
-        <h5 class="text-uppercase fw-bold mb-4" style="letter-spacing: 3px;">WE'll Make An Impact</h5>
-        <h1 class="display-3 mb-4">Community Projects</h1>
-        <p class="mb-5 fs-5">Discover how we're transforming lives through our initiatives</p>
-        <div>
-          <a href="/projects" class="btn btn-warning px-5 py-3">Our Projects</a>
-        </div>
-      </div>
-    </div>
-    
-    <div class="carousel-item">
-      <img src="/images/hero-3.jpg" class="d-block w-100" alt="Join Our Family" style="height: 90vh; object-fit: cover;">
-      <div class="carousel-caption d-flex flex-column justify-content-center h-100">
-        <h5 class="text-uppercase fw-bold mb-4" style="letter-spacing: 3px;">WE'll Build Friendships</h5>
-        <h1 class="display-3 mb-4">Join Our Family</h1>
-        <p class="mb-5 fs-5">Experience leadership, friendship and personal growth</p>
-        <div>
-          <a href="/about" class="btn btn-warning px-5 py-3">Learn More</a>
-        </div>
+<div class="hc-wrap" id="heroCarousel">
+  <div class="hc-slide active" data-index="0">
+    <div class="hc-bg" style="background-image: url('/images/hero-1.jpg');"></div>
+    <div class="hc-overlay"></div>
+    <div class="hc-content">
+      <div class="hc-tag"><span class="tag-dot"></span> We'll serve our community</div>
+      <h1 class="hc-title">Leadership Through Service</h1>
+      <p class="hc-desc">Join us in making a difference in Baddegama and beyond — one project at a time.</p>
+      <div class="hc-btns">
+        <a href="/join" class="hc-btn hc-btn-primary">Join With Us</a>
+        <a href="/about" class="hc-btn hc-btn-outline">Learn More</a>
       </div>
     </div>
   </div>
-  
-  <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon"></span>
+
+  <div class="hc-slide" data-index="1">
+    <div class="hc-bg" style="background-image: url('/images/hero-2.jpeg');"></div>
+    <div class="hc-overlay"></div>
+    <div class="hc-content">
+      <div class="hc-tag"><span class="tag-dot"></span> We'll make an impact</div>
+      <h1 class="hc-title">Community Projects</h1>
+      <p class="hc-desc">Discover how we're transforming lives through our hands-on community initiatives and programs.</p>
+      <div class="hc-btns">
+        <a href="/projects" class="hc-btn hc-btn-primary">Our Projects</a>
+        <a href="/about" class="hc-btn hc-btn-outline">Learn More</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="hc-slide" data-index="2">
+    <div class="hc-bg" style="background-image: url('/images/hero-3.jpeg');"></div>
+    <div class="hc-overlay"></div>
+    <div class="hc-content">
+      <div class="hc-tag"><span class="tag-dot"></span> We'll build friendships</div>
+      <h1 class="hc-title">Join Our Family</h1>
+      <p class="hc-desc">Experience leadership, lasting friendships, and personal growth that stays with you for life.</p>
+      <div class="hc-btns">
+        <a href="/join" class="hc-btn hc-btn-primary">Become a Member</a>
+        <a href="/about" class="hc-btn hc-btn-outline">Learn More</a>
+      </div>
+    </div>
+  </div>
+
+  <button class="hc-nav hc-prev" id="prevBtn" aria-label="Previous slide">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
   </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
-    <span class="carousel-control-next-icon"></span>
+  <button class="hc-nav hc-next" id="nextBtn" aria-label="Next slide">
+    <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
   </button>
+
+  <div class="hc-dots" id="dots">
+    <button class="hc-dot active" data-i="0" aria-label="Slide 1"></button>
+    <button class="hc-dot" data-i="1" aria-label="Slide 2"></button>
+    <button class="hc-dot" data-i="2" aria-label="Slide 3"></button>
+  </div>
+
+  <div class="hc-counter"><span id="curNum">01</span> / 03</div>
+  <div class="hc-progress" id="progress"></div>
 </div>
 
-<script>
-  // Initialize carousel using global Bootstrap loaded from CDN
-  document.addEventListener('DOMContentLoaded', () => {
-    const carouselElement = document.querySelector('#heroCarousel');
-    if (carouselElement && (window as any).bootstrap) {
-      const carousel = new (window as any).bootstrap.Carousel(carouselElement, {
-        interval: 5000,
-        wrap: true
-      });
+<style>
+  .hc-wrap {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background: #0f1122;
+  }
+
+  .hc-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    z-index: 1;
+  }
+
+  .hc-slide.active {
+    opacity: 1;
+    z-index: 2;
+  }
+
+  .hc-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    transform: scale(1);
+    transition: transform 8s ease;
+  }
+
+  .hc-slide.active .hc-bg {
+    transform: scale(1.08);
+  }
+
+  .hc-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(10, 10, 30, 0.93) 0%,
+      rgba(10, 10, 30, 0.55) 45%,
+      rgba(10, 10, 30, 0.15) 100%
+    );
+  }
+
+  .hc-content {
+    position: relative;
+    z-index: 3;
+    padding: 60px 80px;
+    color: #fff;
+    max-width: 720px;
+  }
+
+  .hc-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #ffc107;
+    margin-bottom: 16px;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s;
+  }
+
+  .hc-slide.active .hc-tag {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .tag-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #ffc107;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  .hc-title {
+    font-family: 'Jost', 'Roboto', sans-serif;
+    font-size: 52px;
+    font-weight: 800;
+    line-height: 1.15;
+    color: #fff;
+    margin-bottom: 16px;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.6s ease 0.35s, transform 0.6s ease 0.35s;
+  }
+
+  .hc-slide.active .hc-title {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .hc-desc {
+    font-size: 17px;
+    color: rgba(255, 255, 255, 0.72);
+    margin-bottom: 32px;
+    line-height: 1.7;
+    max-width: 480px;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.6s ease 0.5s, transform 0.6s ease 0.5s;
+  }
+
+  .hc-slide.active .hc-desc {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .hc-btns {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.6s ease 0.65s, transform 0.6s ease 0.65s;
+  }
+
+  .hc-slide.active .hc-btns {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .hc-btn {
+    display: inline-block;
+    padding: 13px 32px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    border: none;
+  }
+
+  .hc-btn-primary {
+    background: #ffc107;
+    color: #1a1a2e;
+    box-shadow: 0 4px 20px rgba(255, 193, 7, 0.35);
+  }
+
+  .hc-btn-primary:hover {
+    background: #ffcd38;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(255, 193, 7, 0.5);
+    color: #1a1a2e;
+  }
+
+  .hc-btn-outline {
+    background: transparent;
+    color: #fff;
+    border: 2px solid rgba(255, 255, 255, 0.45);
+  }
+
+  .hc-btn-outline:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.8);
+    transform: translateY(-3px);
+    color: #fff;
+  }
+
+  .hc-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    width: 52px;
+    height: 52px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    color: #fff;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .hc-nav:hover {
+    background: #ffc107;
+    border-color: #ffc107;
+    color: #1a1a2e;
+  }
+
+  .hc-nav svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .hc-prev { left: 24px; }
+  .hc-next { right: 24px; }
+
+  .hc-dots {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .hc-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.35);
+    cursor: pointer;
+    transition: all 0.35s ease;
+    border: none;
+    padding: 0;
+  }
+
+  .hc-dot.active {
+    width: 28px;
+    border-radius: 4px;
+    background: #ffc107;
+  }
+
+  .hc-counter {
+    position: absolute;
+    top: 24px;
+    right: 28px;
+    z-index: 10;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.45);
+    letter-spacing: 1px;
+  }
+
+  .hc-counter span {
+    color: #ffc107;
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .hc-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background: #ffc107;
+    z-index: 10;
+    width: 0%;
+  }
+
+  .hc-progress.run {
+    transition: width 5s linear;
+    width: 100%;
+  }
+
+  @media (max-width: 768px) {
+    .hc-content {
+      padding: 40px 28px;
+      max-width: 100%;
     }
+
+    .hc-title {
+      font-size: 32px;
+    }
+
+    .hc-desc {
+      font-size: 15px;
+      max-width: 100%;
+    }
+
+    .hc-nav {
+      width: 40px;
+      height: 40px;
+    }
+
+    .hc-prev { left: 12px; }
+    .hc-next { right: 12px; }
+  }
+
+  @media (max-width: 480px) {
+    .hc-title {
+      font-size: 26px;
+    }
+
+    .hc-btn {
+      padding: 11px 22px;
+      font-size: 12px;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const slides = document.querySelectorAll('.hc-slide');
+    const dots = document.querySelectorAll('.hc-dot');
+    const prog = document.getElementById('progress');
+    const curNum = document.getElementById('curNum');
+    let cur = 0;
+    const total = slides.length;
+    let timer;
+
+    function pad(n) {
+      return n < 10 ? '0' + n : n;
+    }
+
+    function startProgress() {
+      prog.classList.remove('run');
+      prog.style.transition = 'none';
+      prog.style.width = '0%';
+      void prog.offsetWidth;
+      prog.classList.add('run');
+    }
+
+    function goTo(n) {
+      slides[cur].classList.remove('active');
+      dots[cur].classList.remove('active');
+      cur = (n + total) % total;
+      slides[cur].classList.add('active');
+      dots[cur].classList.add('active');
+      curNum.textContent = pad(cur + 1);
+      startProgress();
+      clearInterval(timer);
+      timer = setInterval(() => goTo(cur + 1), 5000);
+    }
+
+    document.getElementById('prevBtn').addEventListener('click', () => goTo(cur - 1));
+    document.getElementById('nextBtn').addEventListener('click', () => goTo(cur + 1));
+
+    dots.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.i)));
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowLeft') goTo(cur - 1);
+      if (e.key === 'ArrowRight') goTo(cur + 1);
+    });
+
+    const wrap = document.getElementById('heroCarousel');
+    wrap.addEventListener('mouseenter', () => clearInterval(timer));
+    wrap.addEventListener('mouseleave', () => {
+      timer = setInterval(() => goTo(cur + 1), 5000);
+    });
+
+    startProgress();
+    timer = setInterval(() => goTo(cur + 1), 5000);
   });
 </script>

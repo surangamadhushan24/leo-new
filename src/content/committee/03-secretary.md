@@ -1,7 +1,7 @@
 ---
-name: Darren Williams
+name: Kasuni Samarnayake
 position: Secretary
-image: /images/team/member-03.svg
+image: /images/team/samare.jpg
 bio: Communications lead driving impactful messaging
 email: darren@bgleos.org
 ---

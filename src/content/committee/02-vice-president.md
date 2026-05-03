@@ -1,7 +1,7 @@
 ---
-name: Jasmine Moreira
+name: Mayumi Sugeesha
 position: Vice President
-image: /images/team/member-02.svg
+image: /images/team/mayumi.jpeg
 bio: Youth development expert passionate about community growth
 email: jasmine@bgleos.org
 ---
