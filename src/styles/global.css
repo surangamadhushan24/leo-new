@@ -37,8 +37,9 @@ body {
   font-family: 'Roboto', sans-serif;
   color: var(--text-primary);
   line-height: 1.6;
-  background: linear-gradient(135deg, #ffffff 0%, var(--lighter-bg) 100%);
+  background: var(--lighter-bg);
   min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -101,7 +102,7 @@ a:hover {
 
 .nav-link {
   transition: var(--transition);
-  color: #adb5bd !important;
+  color: var(--text-secondary) !important;
   font-weight: 600;
   margin: 0 10px;
   position: relative;
@@ -185,18 +186,6 @@ main {
   background: linear-gradient(to right, var(--primary-color), var(--accent-color));
   border-radius: 2px;
   animation: expandWidth 0.8s ease-out 0.2s both;
-}
-
-/* Cards */
-.card {
-  border: none;
-  border-radius: 16px;
-  overflow: hidden;
-  transition: var(--transition);
-  box-shadow: var(--shadow-md);
-  height: 100%;
-  background: white;
-  position: relative;
 }
 
 .card::before {
@@ -771,9 +760,41 @@ footer a:hover {
   padding: 0.6rem 1rem;
   border-radius: 20px;
   font-weight: 600;
-  font-size: 0.85rem;
-  letter-spacing: 0.5px;
   text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.8rem;
+}
+
+/* Section Styles */
+.sec {
+  padding: 100px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.sec-white {
+  background: var(--light-bg);
+  color: var(--text-primary);
+}
+
+.sec-navy {
+  background: var(--secondary-color);
+  color: white;
+}
+
+.sec-offwhite {
+  background: var(--lighter-bg);
+  color: var(--text-primary);
+}
+
+/* Badge Enhancements */
+.badge {
+  padding: 0.6rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.8rem;
 }
 
 .badge-primary {

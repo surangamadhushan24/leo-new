@@ -1,10 +1,10 @@
 ---
 title: "January 2026 Newsletter - New Year, New Initiatives"
 date: 2026-01-09
-image: "/images/n6.jpg"
+image: "/images/newsletter/Jan.jpg"
 category: "Monthly Update"
 description: "Welcome to 2026! This month we're excited to share our new projects, upcoming events, and the amazing impact our members have made. Read about our community cleanup initiatives, new members, and what's coming next."
-anyflip_url: "https://anyflip.com/bqqcm/aldx/"
+anyflip_url: "https://anyflip.com/bqqcm/auoa/"
 ---
 
 ## Welcome to 2026!

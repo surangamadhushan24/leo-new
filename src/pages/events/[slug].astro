@@ -15,7 +15,12 @@ interface Event {
 }
 
 export async function getStaticPaths(): Promise<any[]> {
-  const events: any[] = await Astro.glob('../../content/events/*.md');
+  let events: any[] = [];
+  try {
+    events = await Astro.glob('../../content/events/*.md');
+  } catch (error) {
+    events = [];
+  }
   
   return events.map((event: any) => {
     // Extract slug from file path - get the file name without .md extension

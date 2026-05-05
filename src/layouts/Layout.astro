@@ -1,14 +1,17 @@
 ---
 // Import global styles
 import '../styles/global.css';
+import { SEO } from 'astro-seo';
 
 // Props
 export interface Props {
   title: string;
   description?: string;
+  image?: string;
+  url?: string;
 }
 
-const { title, description = 'Leo Club of Baddegama - Making a difference through leadership and service' } = Astro.props;
+const { title, description = 'Leo Club of Baddegama - Making a difference through leadership and service', image, url } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -18,6 +21,55 @@ const { title, description = 'Leo Club of Baddegama - Making a difference throug
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{title} | BG Leos</title>
   <meta name="description" content={description}>
+  
+  <!-- SEO Meta Tags -->
+  <SEO
+    title={title}
+    description={description}
+    canonical={url || `https://bgleo.netlify.app${Astro.url.pathname}`}
+    openGraph={{
+      basic: {
+        title: `${title} | BG Leos`,
+        type: 'website',
+        image: image || 'https://bgleo.netlify.app/images/hero-1.jpeg',
+        url: url || `https://bgleo.netlify.app${Astro.url.pathname}`,
+      },
+      optional: {
+        description: description,
+        siteName: 'BG Leos - Leo Club of Baddegama',
+      },
+    }}
+    twitter={{
+      card: 'summary_large_image',
+      site: '@bgleos',
+      creator: '@bgleos',
+      title: `${title} | BG Leos`,
+      description: description,
+      image: image || 'https://bgleo.netlify.app/images/hero-1.jpeg',
+    }}
+  />
+  
+  <!-- Mobile Optimization -->
+  <meta name="theme-color" content="#ffc107">
+  <meta name="msapplication-TileColor" content="#ffc107">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="BG Leos">
+  
+  <!-- Additional SEO Meta Tags -->
+  <meta name="keywords" content="Leo Club, Baddegama, BG Leos, community service, leadership, youth organization, Sri Lanka, Lions Clubs International, volunteering, social welfare">
+  <meta name="author" content="Leo Club of Baddegama">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+  <meta name="revisit-after" content="7 days">
+  <link rel="canonical" href={url || `https://bgleo.netlify.app${Astro.url.pathname}`}>
+  <link rel="sitemap" href="/sitemap.xml">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -46,7 +98,7 @@ const { title, description = 'Leo Club of Baddegama - Making a difference throug
     body {
       font-family: 'Roboto', sans-serif;
       padding-top: 0;
-      color: #333;
+      color: var(--text-primary);
     }
     
     h1, h2, h3, h4, h5, h6 {
@@ -127,7 +179,7 @@ const { title, description = 'Leo Club of Baddegama - Making a difference throug
 <body>
   <!-- Header/Navigation -->
   <header>
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background: linear-gradient(135deg, var(--secondary-color) 0%, #0f0f1e 100%); box-shadow: 0 4px 20px rgba(0,0,0,0.15); border-bottom: 2px solid rgba(255, 193, 7, 0.1); padding: 0.75rem 0;">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background: linear-gradient(135deg, var(--secondary-color) 0%, var(--secondary-light) 100%); box-shadow: 0 4px 20px rgba(0,0,0,0.15); border-bottom: 2px solid rgba(255, 193, 7, 0.1); padding: 0.75rem 0;">
       <div class="container">
         <a class="navbar-brand d-flex align-items-center fw-bold" href="/" style="transition: all 0.3s ease;">
           <img src="/images/logo.png" alt="BG Leos Logo" height="50" class="me-3" style="transition: transform 0.3s ease;">
@@ -146,6 +198,7 @@ const { title, description = 'Leo Club of Baddegama - Making a difference throug
             <li class="nav-item"><a class="nav-link" href="/#projects">Projects</a></li>
             <li class="nav-item"><a class="nav-link" href="/#events">Events</a></li>
             <li class="nav-item"><a class="nav-link" href="/#newsletter">Newsletter</a></li>
+            <li class="nav-item"><a class="nav-link" href="/#committee">Leaders</a></li>
             <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
             <li class="nav-item">
               <a class="btn btn-warning ms-2" href="/join" style="font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3); transition: all 0.3s ease;">Join Us</a>
@@ -162,7 +215,7 @@ const { title, description = 'Leo Club of Baddegama - Making a difference throug
   </main>
 
   <!-- Footer -->
-  <footer style="background: linear-gradient(135deg, var(--secondary-color) 0%, #0f0f1e 100%); color: white; margin-top: 100px; padding: 80px 0 30px; position: relative; overflow: hidden;">
+  <footer style="background: linear-gradient(135deg, var(--secondary-color) 0%, var(--secondary-light) 100%); color: var(--text-primary); margin-top: 100px; padding: 80px 0 30px; position: relative; overflow: hidden;">
     <div style="position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(to right, transparent, rgba(255, 193, 7, 0.3), transparent);"></div>
     <div class="container">
       <div class="row mb-5">
@@ -171,12 +224,12 @@ const { title, description = 'Leo Club of Baddegama - Making a difference throug
             <img src="/images/logo.png" alt="BG Leos" height="45" class="me-3" style="transition: transform 0.3s ease;">
             <h5 class="mb-0" style="background: linear-gradient(135deg, #ffc107, #ffb300); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; letter-spacing: 1px;">BG Leos</h5>
           </div>
-          <p style="color: #cbd5e1; line-height: 1.8; font-size: 0.95rem;">Leo Club of Baddegama - Making a difference through leadership and service in our community.</p>
+          <p style="color: var(--text-secondary); line-height: 1.8; font-size: 0.95rem;">Leo Club of Baddegama - Making a difference through leadership and service in our community.</p>
           <div class="d-flex mt-4">
-            <a href="https://facebook.com" class="social-icon me-3" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: linear-gradient(135deg, rgba(255, 193, 7, 0.15), rgba(196, 30, 58, 0.15)); border-radius: 50%; color: #ffc107; transition: all 0.3s ease; text-decoration: none; margin: 0; border: 2px solid rgba(255, 193, 7, 0.2); font-size: 1.2rem;"><i class="fab fa-facebook-f"></i></a>
-            <a href="https://instagram.com" class="social-icon me-3" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: linear-gradient(135deg, rgba(255, 193, 7, 0.15), rgba(196, 30, 58, 0.15)); border-radius: 50%; color: #ffc107; transition: all 0.3s ease; text-decoration: none; margin: 0; border: 2px solid rgba(255, 193, 7, 0.2); font-size: 1.2rem;"><i class="fab fa-instagram"></i></a>
-            <a href="https://youtube.com" class="social-icon me-3" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: linear-gradient(135deg, rgba(255, 193, 7, 0.15), rgba(196, 30, 58, 0.15)); border-radius: 50%; color: #ffc107; transition: all 0.3s ease; text-decoration: none; margin: 0; border: 2px solid rgba(255, 193, 7, 0.2); font-size: 1.2rem;"><i class="fab fa-youtube"></i></a>
-            <a href="https://twitter.com" class="social-icon" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: linear-gradient(135deg, rgba(255, 193, 7, 0.15), rgba(196, 30, 58, 0.15)); border-radius: 50%; color: #ffc107; transition: all 0.3s ease; text-decoration: none; margin: 0; border: 2px solid rgba(255, 193, 7, 0.2); font-size: 1.2rem;"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.facebook.com/bgleos" class="social-icon me-3" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: linear-gradient(135deg, rgba(255, 193, 7, 0.15), rgba(196, 30, 58, 0.15)); border-radius: 50%; color: var(--primary-color); transition: all 0.3s ease; text-decoration: none; margin: 0; border: 2px solid rgba(255, 193, 7, 0.2); font-size: 1.2rem;"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/leosofbaddegama/" class="social-icon me-3" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: linear-gradient(135deg, rgba(255, 193, 7, 0.15), rgba(196, 30, 58, 0.15)); border-radius: 50%; color: var(--primary-color); transition: all 0.3s ease; text-decoration: none; margin: 0; border: 2px solid rgba(255, 193, 7, 0.2); font-size: 1.2rem;"><i class="fab fa-instagram"></i></a>
+            <a href="http://www.youtube.com/@leo.club.of.baddegama " class="social-icon me-3" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: linear-gradient(135deg, rgba(255, 193, 7, 0.15), rgba(196, 30, 58, 0.15)); border-radius: 50%; color: var(--primary-color); transition: all 0.3s ease; text-decoration: none; margin: 0; border: 2px solid rgba(255, 193, 7, 0.2); font-size: 1.2rem;"><i class="fab fa-youtube"></i></a>
+            <a href="https://whatsapp.com/channel/0029Vb7K1d8Fy72CMkQ9O13G " class="social-icon" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: linear-gradient(135deg, rgba(255, 193, 7, 0.15), rgba(196, 30, 58, 0.15)); border-radius: 50%; color: var(--primary-color); transition: all 0.3s ease; text-decoration: none; margin: 0; border: 2px solid rgba(255, 193, 7, 0.2); font-size: 1.2rem;"><i class="fab fa-whatsapp"></i></a>
           </div>
         </div>
         <div class="col-lg-4 mb-4">
@@ -184,12 +237,12 @@ const { title, description = 'Leo Club of Baddegama - Making a difference throug
             Quick Links
             <span style="position: absolute; bottom: 0; left: 0; width: 40px; height: 3px; background: linear-gradient(to right, #ffc107, #c41e3a); border-radius: 2px;"></span>
           </h5>
-          <ul class="list-unstyled" style="color: #cbd5e1;">
-            <li class="mb-3"><a href="/#home" style="color: #cbd5e1; text-decoration: none; transition: all 0.3s ease; display: inline-block;" class="text-decoration-none" onmouseover="this.style.color='#ffc107'; this.style.paddingLeft='8px';" onmouseout="this.style.color='#cbd5e1'; this.style.paddingLeft='0';">Home</a></li>
-            <li class="mb-3"><a href="/#about" style="color: #cbd5e1; text-decoration: none; transition: all 0.3s ease; display: inline-block;" onmouseover="this.style.color='#ffc107'; this.style.paddingLeft='8px';" onmouseout="this.style.color='#cbd5e1'; this.style.paddingLeft='0';">About Us</a></li>
-            <li class="mb-3"><a href="/#projects" style="color: #cbd5e1; text-decoration: none; transition: all 0.3s ease; display: inline-block;" onmouseover="this.style.color='#ffc107'; this.style.paddingLeft='8px';" onmouseout="this.style.color='#cbd5e1'; this.style.paddingLeft='0';">Projects</a></li>
-            <li class="mb-3"><a href="/#events" style="color: #cbd5e1; text-decoration: none; transition: all 0.3s ease; display: inline-block;" onmouseover="this.style.color='#ffc107'; this.style.paddingLeft='8px';" onmouseout="this.style.color='#cbd5e1'; this.style.paddingLeft='0';">Events</a></li>
-            <li class="mb-3"><a href="/contact" style="color: #cbd5e1; text-decoration: none; transition: all 0.3s ease; display: inline-block;" onmouseover="this.style.color='#ffc107'; this.style.paddingLeft='8px';" onmouseout="this.style.color='#cbd5e1'; this.style.paddingLeft='0';">Contact</a></li>
+          <ul class="list-unstyled" style="color: var(--text-secondary);">
+            <a href="/#home" style="color: var(--text-secondary); text-decoration: none; transition: all 0.3s ease; display: inline-block;" class="text-decoration-none" onmouseover="this.style.color='var(--primary-color)'; this.style.paddingLeft='8px';" onmouseout="this.style.color='var(--text-secondary)'; this.style.paddingLeft='0';">Home</a>
+            <li class="mb-3"><a href="/#about" style="color: var(--text-secondary); text-decoration: none; transition: all 0.3s ease; display: inline-block;" onmouseover="this.style.color='var(--primary-color)'; this.style.paddingLeft='8px';" onmouseout="this.style.color='var(--text-secondary)'; this.style.paddingLeft='0';">About Us</a></li>
+            <li class="mb-3"><a href="/#projects" style="color: var(--text-secondary); text-decoration: none; transition: all 0.3s ease; display: inline-block;" onmouseover="this.style.color='var(--primary-color)'; this.style.paddingLeft='8px';" onmouseout="this.style.color='var(--text-secondary)'; this.style.paddingLeft='0';">Projects</a></li>
+            <li class="mb-3"><a href="/#events" style="color: var(--text-secondary); text-decoration: none; transition: all 0.3s ease; display: inline-block;" onmouseover="this.style.color='var(--primary-color)'; this.style.paddingLeft='8px';" onmouseout="this.style.color='var(--text-secondary)'; this.style.paddingLeft='0';">Events</a></li>
+            <li class="mb-3"><a href="/contact" style="color: var(--text-secondary); text-decoration: none; transition: all 0.3s ease; display: inline-block;" onmouseover="this.style.color='var(--primary-color)'; this.style.paddingLeft='8px';" onmouseout="this.style.color='var(--text-secondary)'; this.style.paddingLeft='0';">Contact</a></li>
           </ul>
         </div>
         <div class="col-lg-4">
@@ -197,14 +250,14 @@ const { title, description = 'Leo Club of Baddegama - Making a difference throug
             Contact Info
             <span style="position: absolute; bottom: 0; left: 0; width: 40px; height: 3px; background: linear-gradient(to right, #ffc107, #c41e3a); border-radius: 2px;"></span>
           </h5>
-          <p style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.8;"><i class="fas fa-map-marker-alt me-2" style="color: #ffc107;"></i> Baddegama, Galle, Sri Lanka</p>
-          <p style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.8;"><i class="fas fa-phone me-2" style="color: #ffc107;"></i> +94 77 123 4567</p>
-          <p style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.8;"><i class="fas fa-envelope me-2" style="color: #ffc107;"></i> info@bgleos.org</p>
+          <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.8;"><i class="fas fa-map-marker-alt me-2" style="color: var(--primary-color);"></i> Baddegama, Galle, Sri Lanka</p>
+          <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.8;"><i class="fas fa-phone me-2" style="color: var(--primary-color);"></i> +94 765736006</p>
+          <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.8;"><i class="fas fa-envelope me-2" style="color: var(--primary-color);"></i>  leosofbaddegama@gmail.com</p>
         </div>
       </div>
       <hr style="border-color: rgba(255,255,255,0.1); margin: 40px 0;">
-      <div class="text-center" style="color: #9ca3af; font-size: 0.9rem;">
-        <p style="margin: 0;">&copy; 2024 BG Leos - Leo Club of Baddegama. All Rights Reserved.</p>
+      <div class="text-center" style="color: var(--text-secondary); font-size: 0.9rem;">
+        <p style="margin: 0;">&copy; 2026 BG Leos - Leo Club of Baddegama. All Rights Reserved.</p>
       </div>
     </div>
   </footer>
@@ -280,6 +333,77 @@ window.addEventListener('scroll', () => {
 });
 
 document.body.appendChild(backToTop);
+
+// Close mobile navbar after clicking a link
+document.addEventListener('DOMContentLoaded', () => {
+  if (typeof bootstrap === 'undefined') {
+    return;
+  }
+
+  const navbarCollapse = document.getElementById('navbarNav');
+  const toggler = document.querySelector('.navbar-toggler');
+
+  if (!navbarCollapse || !toggler) {
+    return;
+  }
+
+  const collapseInstance = new bootstrap.Collapse(navbarCollapse, { toggle: false });
+
+  navbarCollapse.addEventListener('click', (event) => {
+    const link = event.target.closest('a');
+    if (!link) {
+      return;
+    }
+
+    if (navbarCollapse.classList.contains('show') && window.getComputedStyle(toggler).display !== 'none') {
+      collapseInstance.hide();
+    }
+  });
+});
+  </script>
+
+  <!-- Structured Data for SEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Leo Club of Baddegama",
+    "alternateName": "BG Leos",
+    "url": "https://bgleo.netlify.app",
+    "logo": "https://bgleo.netlify.app/images/logo.png",
+    "description": "Leo Club of Baddegama - Making a difference through leadership and service in our community.",
+    "foundingDate": "2018",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Baddegama",
+      "addressRegion": "Galle",
+      "addressCountry": "LK"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+94-765736006",
+      "email": "leosofbaddegama@gmail.com",
+      "contactType": "customer service"
+    },
+    "sameAs": [
+      "https://www.facebook.com/bgleos",
+      "https://www.instagram.com/leosofbaddegama/",
+      "http://www.youtube.com/@leo.club.of.baddegama",
+      "https://whatsapp.com/channel/0029Vb7K1d8Fy72CMkQ9O13G"
+    ],
+    "memberOf": {
+      "@type": "Organization",
+      "name": "Lions Clubs International"
+    },
+    "knowsAbout": [
+      "Community Service",
+      "Leadership Development",
+      "Youth Organization",
+      "Environmental Sustainability",
+      "Social Welfare",
+      "Education Support"
+    ]
+  }
   </script>
 </body>
 </html>

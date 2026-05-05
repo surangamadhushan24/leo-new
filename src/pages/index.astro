@@ -1,342 +1,341 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import HeroCarousel from '../components/HeroCarousel.astro';
-import Counter from '../components/Counter.astro';
-import ProjectCard from '../components/ProjectCard.astro';
-import EventCard from '../components/EventCard.astro';
-import NewsletterCard from '../components/NewsletterCard.astro';
-import ExecutiveCommitteeCarousel from '../components/ExecutiveCommitteeCarousel.astro';
+import Layout from "../layouts/Layout.astro";
+import HeroCarousel from "../components/HeroCarousel.astro";
+import Counter from "../components/Counter.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import EventCard from "../components/EventCard.astro";
+import NewsletterCard from "../components/NewsletterCard.astro";
+import ExecutiveCommitteeCarousel from "../components/ExecutiveCommitteeCarousel.astro";
 
-// Fetch content
 let projects: any[] = [];
 let events: any[] = [];
 let newsletters: any[] = [];
 let committeeMembers: any[] = [];
 
-try {
-  projects = await Astro.glob('../content/projects/*.md');
-} catch (e) {
-  projects = [];
-}
+try { projects = await Astro.glob("../content/projects/*.md"); } catch (e) { projects = []; }
+try { events = await Astro.glob("../content/events/*.md"); } catch (e) { events = []; }
+try { newsletters = await Astro.glob("../content/newsletter/*.md"); } catch (e) { newsletters = []; }
 
 try {
-  events = await Astro.glob('../content/events/*.md');
-} catch (e) {
-  events = [];
-}
-
-try {
-  newsletters = await Astro.glob('../content/newsletter/*.md');
-} catch (e) {
-  newsletters = [];
-}
-
-try {
-  const committeeModules = import.meta.glob('../content/committee/*.md');
+  const committeeModules = import.meta.glob("../content/committee/*.md");
   const committeePaths = Object.keys(committeeModules);
   committeeMembers = await Promise.all(
     committeePaths.map(async (path) => {
       const module = await committeeModules[path]();
       return { ...(module as any), file: path };
-    })
+    }),
   );
-} catch (e) {
-  committeeMembers = [];
-}
+} catch (e) { committeeMembers = []; }
 
-// Sort committee members by file name to maintain order
-const sortedCommittee = committeeMembers.sort((a, b) => {
-  const fileA = (a as any).file || '';
-  const fileB = (b as any).file || '';
-  return fileA.localeCompare(fileB);
-});
-const visibleCommittee = sortedCommittee.slice(0, 6);
+const sortedCommittee = committeeMembers.sort((a, b) =>
+  ((a as any).file || "").localeCompare((b as any).file || "")
+);
+const visibleCommittee = sortedCommittee.slice(0, 5);
+
 const latestProjects = projects
-  .sort((a, b) => {
-    const dateA = new Date(a.frontmatter.date || 0);
-    const dateB = new Date(b.frontmatter.date || 0);
-    return dateB.getTime() - dateA.getTime();
-  })
+  .sort((a, b) => new Date(b.frontmatter.date || 0).getTime() - new Date(a.frontmatter.date || 0).getTime())
   .slice(0, 3);
 
 const upcomingEvents = events
-  .filter(event => {
-    const eventDate = new Date(event.frontmatter.date || 0);
-    return eventDate >= new Date();
-  })
-  .sort((a, b) => {
-    const dateA = new Date(a.frontmatter.date || 0);
-    const dateB = new Date(b.frontmatter.date || 0);
-    return dateA.getTime() - dateB.getTime();
-  })
+  .filter((e) => new Date(e.frontmatter.date || 0) >= new Date())
+  .sort((a, b) => new Date(a.frontmatter.date || 0).getTime() - new Date(b.frontmatter.date || 0).getTime())
   .slice(0, 3);
 
 const latestNewsletters = newsletters
-  .sort((a, b) => {
-    const dateA = new Date(a.frontmatter.date || 0);
-    const dateB = new Date(b.frontmatter.date || 0);
-    return dateB.getTime() - dateA.getTime();
-  })
+  .sort((a, b) => new Date(b.frontmatter.date || 0).getTime() - new Date(a.frontmatter.date || 0).getTime())
   .slice(0, 3);
 ---
 
 <Layout title="Home" description="Leo Club of Baddegama - Leadership through service">
-  <!-- Hero Section -->
+
+  <!-- ① Hero -->
   <section id="home">
     <HeroCarousel />
   </section>
 
-  <!-- About Section -->
-  <section id="about" class="py-5 position-relative overflow-hidden" style="background: linear-gradient(135deg, var(--light-bg) 0%, rgba(255,193,7,0.05) 50%, var(--lighter-bg) 100%);">
-    <!-- Background Pattern -->
-    <div class="position-absolute top-0 start-0 w-100 h-100 opacity-25" style="background-image: radial-gradient(circle at 25% 25%, rgba(255,193,7,0.1) 0%, transparent 50%), radial-gradient(circle at 75% 75%, rgba(196,30,58,0.1) 0%, transparent 50%);"></div>
-
-    <div class="container py-5 position-relative">
-      <div class="row align-items-center">
-        <!-- Image Column -->
-        <div class="col-lg-6 mb-4 mb-lg-0">
-          <div class="position-relative">
-            <div class="about-image-container">
-              <img src="/images/logo.png" alt="About BG Leos" class="img-fluid rounded-4 shadow-lg about-image">
-              <!-- Decorative Elements -->
-              <div class="position-absolute top-0 start-0 translate-middle">
-                <div class="decorative-circle bg-gradient-primary opacity-75"></div>
-              </div>
-              <div class="position-absolute bottom-0 end-0 translate-middle">
-                <div class="decorative-circle bg-gradient-accent opacity-75"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Content Column -->
-        <div class="col-lg-6">
-          <div class="about-content">
-            <div class="mb-4">
-              <span class="badge badge-primary mb-3 d-inline-block">About Us</span>
-              <h2 class="section-title text-start mb-4" style="margin-bottom: 2rem !important;">About BG Leos</h2>
-            </div>
-
-            <p class="lead text-secondary mb-4 fs-5 lh-base">
-              We are a dynamic group of young leaders committed to making a positive impact in our community through service, leadership, and friendship.
-            </p>
-
-            <p class="text-muted mb-4 fs-6 lh-base">
-              The Leo Club of Baddegama is part of the international Leo movement, providing young people with opportunities for development and contributions to society. We believe in the power of collective action to create lasting change.
-            </p>
-
-            <!-- Feature List -->
-            <div class="row g-3 mb-4">
-              <div class="col-md-6">
-                <div class="feature-item d-flex align-items-center p-3 rounded-3 bg-white shadow-sm transition-all">
-                  <div class="feature-icon me-3">
-                    <i class="fas fa-hand-holding-heart text-warning fs-4"></i>
-                  </div>
-                  <div>
-                    <h6 class="mb-0 fw-bold text-secondary">Community Service</h6>
-                    <small class="text-muted">Making a difference together</small>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="feature-item d-flex align-items-center p-3 rounded-3 bg-white shadow-sm transition-all">
-                  <div class="feature-icon me-3">
-                    <i class="fas fa-users text-warning fs-4"></i>
-                  </div>
-                  <div>
-                    <h6 class="mb-0 fw-bold text-secondary">Leadership Development</h6>
-                    <small class="text-muted">Growing future leaders</small>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="feature-item d-flex align-items-center p-3 rounded-3 bg-white shadow-sm transition-all">
-                  <div class="feature-icon me-3">
-                    <i class="fas fa-network-wired text-warning fs-4"></i>
-                  </div>
-                  <div>
-                    <h6 class="mb-0 fw-bold text-secondary">Networking</h6>
-                    <small class="text-muted">Building connections</small>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="feature-item d-flex align-items-center p-3 rounded-3 bg-white shadow-sm transition-all">
-                  <div class="feature-icon me-3">
-                    <i class="fas fa-seedling text-warning fs-4"></i>
-                  </div>
-                  <div>
-                    <h6 class="mb-0 fw-bold text-secondary">Personal Growth</h6>
-                    <small class="text-muted">Continuous development</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- CTA Button -->
-            <div class="d-flex gap-3 flex-wrap">
-              <a href="/about" class="btn btn-warning btn-lg px-4 py-3 fw-bold">
-                <i class="fas fa-info-circle me-2"></i>Learn More About Us
-              </a>
-              <a href="/join" class="btn btn-outline-primary btn-lg px-4 py-3 fw-bold">
-                <i class="fas fa-user-plus me-2"></i>Join Our Community
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Counter Section -->
-  <section style="background: linear-gradient(135deg, var(--secondary-color) 0%, #0f0f1e 100%); color: white; padding: 80px 0;">
+  <!-- ② About — WHITE -->
+  <section id="about" class="sec sec-white">
     <div class="container">
-      <div class="row text-center">
-        <div class="col-md-3 col-6 mb-4">
-          <div class="counter-item">
-            <i class="fas fa-users fa-3x text-warning mb-3"></i>
-            <div class="counter-value display-4 fw-bold mb-2">
-              <Counter target={85} />
-            </div>
-            <div class="counter-text fs-5">Active Members</div>
+      <div class="row align-items-center g-5">
+        <div class="col-lg-6 text-center">
+          <div class="about-img-wrap">
+            <img src="/images/logo.png" alt="BG Leos Logo"
+              class="img-fluid rounded-4 shadow-lg about-img" />
+            <div class="about-glow"></div>
           </div>
         </div>
-        <div class="col-md-3 col-6 mb-4">
-          <div class="counter-item">
-            <i class="fas fa-hand-holding-heart fa-3x text-warning mb-3"></i>
-            <div class="counter-value display-4 fw-bold mb-2">
-              <Counter target={42} />
-            </div>
-            <div class="counter-text fs-5">Projects Completed</div>
+        <div class="col-lg-6">
+          <span class="pill-badge">About Us</span>
+          <h2 class="sec-heading mt-3 mb-4">About BG Leos</h2>
+          <p class="lead-text mb-3">
+            We are a dynamic group of young leaders committed to making a positive impact
+            in our community through service, leadership, and friendship.
+          </p>
+          <p class="body-text mb-4">
+            The Leo Club of Baddegama is part of the international Leo movement, providing
+            young people with opportunities for development and contributions to society.
+            We believe in the power of collective action to create lasting change.
+          </p>
+          <div class="row g-3 mb-4">
+            {[
+              { icon: "fa-hand-holding-heart", title: "Community Service",      sub: "Making a difference together" },
+              { icon: "fa-users",              title: "Leadership Development",  sub: "Growing future leaders"       },
+              { icon: "fa-network-wired",      title: "Networking",             sub: "Building connections"         },
+              { icon: "fa-seedling",           title: "Personal Growth",        sub: "Continuous development"       },
+            ].map(item => (
+              <div class="col-md-6">
+                <div class="feat-item">
+                  <div class="feat-icon"><i class={`fas ${item.icon}`}></i></div>
+                  <div>
+                    <div class="feat-title">{item.title}</div>
+                    <div class="feat-sub">{item.sub}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
-        </div>
-        <div class="col-md-3 col-6 mb-4">
-          <div class="counter-item">
-            <i class="fas fa-calendar-check fa-3x text-warning mb-3"></i>
-            <div class="counter-value display-4 fw-bold mb-2">
-              <Counter target={36} />
-            </div>
-            <div class="counter-text fs-5">Events Organized</div>
+          <div class="d-flex gap-3 flex-wrap">
+            <a href="/about" class="btn-gold"><i class="fas fa-info-circle me-2"></i>Learn More</a>
+            <a href="/join"  class="btn-outline"><i class="fas fa-user-plus me-2"></i>Join Us</a>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Recent Projects -->
-  <section id="projects" class="py-5" style="background-color: var(--light-bg);">
-    <div class="container py-5">
-      <div class="row mb-5">
-        <div class="col-12 text-center">
-          <h2 class="section-title">Our Recent Projects</h2>
-          <p class="lead text-secondary">Making a difference in our community through meaningful initiatives</p>
-        </div>
-      </div>
-      
-      <div class="row">
-        {latestProjects.map(project => (
-          <div class="col-lg-4 col-md-6 mb-4">
-            <ProjectCard project={project} />
+  <!-- ③ Stats — NAVY -->
+  <section class="sec sec-navy">
+    <div class="container">
+      <div class="row text-center g-4">
+        {[
+          { icon: "fa-users",              target: 40,  label: "Active Members"        },
+          { icon: "fa-hand-holding-heart", target: 100, label: "Projects Completed"    },
+          { icon: "fa-calendar-check",     target: 36,  label: "Events Organised"      },
+          { icon: "fa-newspaper",          target: 10,  label: "Newsletters Published"  },
+        ].map(item => (
+          <div class="col-md-3 col-6">
+            <div class="stat-icon-wrap"><i class={`fas ${item.icon} fa-2x`}></i></div>
+            <div class="stat-value"><Counter target={item.target} /></div>
+            <div class="stat-label">{item.label}</div>
           </div>
         ))}
       </div>
-      
-      <div class="text-center mt-4">
-        <a href="/projects" class="btn btn-warning btn-lg">View All Projects</a>
+    </div>
+  </section>
+
+  <!-- ④ Projects — OFF-WHITE -->
+  <section id="projects" class="sec sec-offwhite">
+    <div class="container">
+      <div class="sec-header">
+        <h2 class="sec-heading">Our Recent Projects</h2>
+        <p class="sec-sub">Making a difference in our community through meaningful initiatives</p>
+      </div>
+      <div class="row g-4">
+        {latestProjects.map(project => (
+          <div class="col-lg-4 col-md-6"><ProjectCard project={project} /></div>
+        ))}
+      </div>
+      <div class="text-center mt-5">
+        <a href="/projects" class="btn-gold">View All Projects</a>
       </div>
     </div>
   </section>
 
-  <!-- Upcoming Events -->
-  <section id="events" class="py-5">
-    <div class="container py-5">
-      <div class="row mb-5">
-        <div class="col-12 text-center">
-          <h2 class="section-title">Upcoming Events</h2>
-          <p class="lead">Join us in our upcoming activities and make a difference</p>
-        </div>
+  <!-- ⑤ Events — WHITE -->
+  <section id="events" class="sec sec-white">
+    <div class="container">
+      <div class="sec-header">
+        <h2 class="sec-heading">Upcoming Events</h2>
+        <p class="sec-sub">Join us in our upcoming activities and make a difference</p>
       </div>
-      
-      <div class="row">
+      <div class="row g-4">
         {upcomingEvents.length > 0 ? (
           upcomingEvents.map(event => (
-            <div class="col-lg-4 col-md-6 mb-4">
-              <EventCard event={event} />
-            </div>
+            <div class="col-lg-4 col-md-6"><EventCard event={event} /></div>
           ))
         ) : (
           <div class="col-12 text-center">
-            <p class="lead">No upcoming events at the moment. Check back soon!</p>
+            <p class="lead text-muted">No upcoming events at the moment. Check back soon!</p>
           </div>
         )}
       </div>
-      
-      <div class="text-center mt-4">
-        <a href="/events" class="btn btn-warning btn-lg">View All Events</a>
+      <div class="text-center mt-5">
+        <a href="/events" class="btn-gold">View All Events</a>
       </div>
     </div>
   </section>
 
-  <!-- Latest Newsletter -->
-  <section id="newsletter" class="py-5" style="background-color: var(--light-bg);">
-    <div class="container py-5">
-      <div class="row mb-5">
-        <div class="col-12 text-center">
-          <h2 class="section-title">Latest Newsletter</h2>
-          <p class="lead text-secondary">Stay informed with our latest news and community updates</p>
-        </div>
+  <!-- ⑥ Newsletter — OFF-WHITE -->
+  <section id="newsletter" class="sec sec-offwhite">
+    <div class="container">
+      <div class="sec-header">
+        <h2 class="sec-heading">Latest Newsletter</h2>
+        <p class="sec-sub">Stay informed with our latest news and community updates</p>
       </div>
-      
-      <div class="row">
+      <div class="row g-4">
         {latestNewsletters.length > 0 ? (
           latestNewsletters.map(newsletter => (
-            <div class="col-lg-4 col-md-6 mb-4">
-              <NewsletterCard newsletter={newsletter} />
-            </div>
+            <div class="col-lg-4 col-md-6"><NewsletterCard newsletter={newsletter} /></div>
           ))
         ) : (
           <div class="col-12 text-center">
-            <p class="lead">No newsletters available yet. Check back soon!</p>
+            <p class="lead text-muted">No newsletters available yet. Check back soon!</p>
           </div>
         )}
       </div>
-      
-      <div class="text-center mt-4">
-        <a href="/newsletter" class="btn btn-warning btn-lg">View More Newsletter</a>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- Executive Committee 2025/26 -->
-  <section id="committee" class="py-5" style="padding: 0; background: transparent; position: relative; overflow: hidden;">
-
-      <div class="committee-grid-wrapper">
-        {visibleCommittee.length > 0 ? (
-          <ExecutiveCommitteeCarousel members={visibleCommittee} />
-        ) : (
-          <div class="text-center" style="padding: 60px 20px;">
-            <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #ffc107, #ffb300); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 20px; box-shadow: 0 8px 25px rgba(255, 193, 7, 0.3);">
-              <i class="fas fa-users fa-2x" style="color: #1a1a2e;"></i>
-            </div>
-            <h4 style="color: #1a1a2e; font-weight: 700; margin-bottom: 10px;">Committee Coming Soon</h4>
-            <p class="lead" style="color: #6b7280;">Our executive committee information will be available shortly.</p>
-          </div>
-        )}
-      </div>
-
       <div class="text-center mt-5">
-        <a href="/about" class="btn btn-warning btn-lg" style="font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 14px 32px; font-size: 1rem; box-shadow: 0 8px 25px rgba(255, 193, 7, 0.4); transition: all 0.3s ease;">
-          Meet All Members
-        </a>
+        <a href="/newsletter" class="btn-gold">View More Newsletters</a>
       </div>
     </div>
   </section>
 
-  <style is:inline>
-    .committee-carousel-wrapper {
-      margin-bottom: 40px;
-    }
-  </style>
+  <!-- ⑦ Executive Committee — WHITE -->
+  <section id="committee" class="sec sec-white">
+    <div class="container">
+      <div class="sec-header">
+        <h2 class="sec-heading">Executive Committee 2025/26</h2>
+        <p class="sec-sub">Meet the dedicated leaders guiding our organisation towards excellence and community impact</p>
+      </div>
+    </div>
+    {visibleCommittee.length > 0 ? (
+      <ExecutiveCommitteeCarousel members={visibleCommittee} />
+    ) : (
+      <div class="text-center py-4">
+        <div class="feat-icon mx-auto mb-3" style="width:64px;height:64px;">
+          <i class="fas fa-users fa-2x"></i>
+        </div>
+        <h4 style="color:var(--navy);font-weight:700;">Committee Coming Soon</h4>
+        <p class="text-muted">Our executive committee information will be available shortly.</p>
+      </div>
+    )}
+  </section>
 
 </Layout>
+
+<style is:inline>
+  /* ── Design tokens ─────────────────────────── */
+  :root {
+    --gold:      #ffc107;
+    --gold-dark: #e6a800;
+    --navy:      #1a1a2e;
+    --navy-mid:  #16213e;
+    --white:     #ffffff;
+    --offwhite:  #f7f7f5;
+    --text-dark: #1a1a2e;
+    --text-mid:  #4a5568;
+    --text-lite: #718096;
+  }
+
+  /* ── Section rhythm ────────────────────────── */
+  section          { margin: 0 !important; }
+  .sec             { padding: 80px 0; }
+  .sec-white       { background: var(--white); }
+  .sec-offwhite    { background: var(--offwhite); }
+  .sec-navy        {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+    color: white;
+  }
+
+  /*
+   * CRITICAL: force the carousel component's root element
+   * to be transparent so it inherits the white section bg.
+   * Targets both the class name and any inline style.
+   */
+  #committee .committee-carousel {
+    background: transparent !important;
+    background-image: none !important;
+    min-height: unset !important;
+    padding-top: 0 !important;
+  }
+
+  /* ── Section headers ───────────────────────── */
+  .sec-header  { text-align: center; margin-bottom: 48px; }
+  .sec-heading {
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    font-weight: 800;
+    color: var(--text-dark);
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+  }
+  .sec-sub {
+    color: var(--text-mid);
+    font-size: 1.05rem;
+    max-width: 540px;
+    margin: 0 auto;
+  }
+
+  /* ── About ─────────────────────────────────── */
+  .about-img-wrap { position: relative; display: inline-block; }
+  .about-img      { max-width: 380px; width: 100%; position: relative; z-index: 1; }
+  .about-glow {
+    position: absolute; inset: -30px;
+    background: radial-gradient(ellipse at 60% 60%, rgba(255,193,7,.14) 0%, transparent 70%);
+    border-radius: 50%; z-index: 0; pointer-events: none;
+  }
+
+  .pill-badge {
+    display: inline-block;
+    background: #fff8e1; color: var(--gold-dark);
+    border: 1.5px solid var(--gold); border-radius: 100px;
+    padding: 4px 16px; font-size: 0.78rem;
+    font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  }
+
+  .lead-text { font-size: 1.1rem; font-weight: 500; color: var(--text-dark); line-height: 1.7; }
+  .body-text { font-size: 0.97rem; color: var(--text-mid); line-height: 1.8; }
+
+  .feat-item {
+    display: flex; align-items: center; gap: 12px;
+    background: var(--offwhite);
+    border: 1px solid rgba(26,26,46,.06);
+    border-radius: 12px; padding: 13px 15px;
+    transition: box-shadow .2s, transform .2s;
+  }
+  .feat-item:hover { box-shadow: 0 8px 28px rgba(26,26,46,.10); transform: translateY(-2px); }
+
+  .feat-icon {
+    width: 40px; height: 40px; flex-shrink: 0;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--navy); font-size: 1rem;
+  }
+  .feat-title { font-weight: 700; font-size: 0.88rem; color: var(--text-dark); margin-bottom: 2px; }
+  .feat-sub   { font-size: 0.78rem; color: var(--text-lite); }
+
+  /* ── Buttons ───────────────────────────────── */
+  .btn-gold {
+    display: inline-flex; align-items: center;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: var(--navy); font-weight: 700; font-size: 0.95rem;
+    padding: 12px 28px; border-radius: 100px; text-decoration: none;
+    box-shadow: 0 4px 16px rgba(255,193,7,.35);
+    transition: transform .2s, box-shadow .2s;
+  }
+  .btn-gold:hover {
+    transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,193,7,.45);
+    color: var(--navy); text-decoration: none;
+  }
+
+  .btn-outline {
+    display: inline-flex; align-items: center;
+    background: transparent; color: var(--navy);
+    font-weight: 700; font-size: 0.95rem;
+    padding: 11px 28px; border-radius: 100px;
+    border: 2px solid var(--navy); text-decoration: none;
+    transition: background .2s, color .2s;
+  }
+  .btn-outline:hover { background: var(--navy); color: var(--white); text-decoration: none; }
+
+  /* ── Stats ─────────────────────────────────── */
+  .stat-icon-wrap {
+    width: 60px; height: 60px;
+    background: rgba(255,193,7,.14);
+    border: 1.5px solid rgba(255,193,7,.30);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gold); margin: 0 auto 14px;
+  }
+  .stat-value { font-size: 2.6rem; font-weight: 800; color: white; line-height: 1; margin-bottom: 6px; }
+  .stat-label { font-size: 0.92rem; font-weight: 500; color: rgba(255,255,255,.65); }
+</style>

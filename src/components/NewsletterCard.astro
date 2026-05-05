@@ -51,7 +51,7 @@ const slug = getSlug();
       </p>
     )}
     
-    <p class="newsletter-description">{preview}{preview && '...'}</p>
+    {/* <p class="newsletter-description">{preview}{preview && '...'}</p> */}
     
     <a href={`/newsletter/${slug}`} class="btn-read-newsletter">
       Read Latest <i class="fas fa-arrow-right ms-2"></i>
@@ -66,7 +66,7 @@ const slug = getSlug();
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    background: white;
+    background: var(--lighter-bg);
     display: flex;
     flex-direction: column;
     position: relative;
@@ -79,7 +79,7 @@ const slug = getSlug();
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(to right, #ffc107, #c41e3a);
+    background: linear-gradient(to right, var(--primary-color), var(--accent-color));
     transform: scaleX(0);
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     transform-origin: left;
@@ -99,7 +99,7 @@ const slug = getSlug();
     position: absolute;
     top: 16px;
     left: 16px;
-    background: linear-gradient(135deg, #c41e3a, #a01830);
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-dark));
     color: white;
     padding: 8px 14px;
     border-radius: 24px;
@@ -212,7 +212,7 @@ const slug = getSlug();
     left: 0;
     width: 0;
     height: 2px;
-    background: #ffc107;
+    background: var(--primary-color);
     transition: width 0.3s ease;
   }
 
@@ -222,7 +222,7 @@ const slug = getSlug();
 
   .btn-read-newsletter:hover::after {
     width: 100%;
-    background: #c41e3a;
+    background: var(--accent-color);
   }
 
   .btn-read-newsletter i {

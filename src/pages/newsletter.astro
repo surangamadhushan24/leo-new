@@ -12,10 +12,15 @@ const sortedNewsletters = newsletters.sort((a, b) => {
 
 <Layout title="Newsletter" description="BG Leos Newsletter - Latest news, updates and community stories">
   <!-- Hero Section -->
-  <section class="bg-dark text-white py-5" style="margin-top: -76px; padding-top: 150px !important;">
-    <div class="container py-5 text-center">
-      <h1 class="display-4 fw-bold mb-4">Newsletter</h1>
-      <p class="lead">Stay updated with our latest news and community stories</p>
+  <section class="hero-newsletter">
+    <div class="container py-5 text-white">
+      <div class="breadcrumb-custom mb-4">
+        <a href="/" class="breadcrumb-item">Home</a>
+        <span class="breadcrumb-divider">/</span>
+        <span class="breadcrumb-item active">Newsletter</span>
+      </div>
+      <h1 class="newsletter-title mb-3">Newsletter</h1>
+      <p class="newsletter-description mb-0">Stay updated with our latest news and community stories</p>
     </div>
   </section>
 
@@ -48,7 +53,7 @@ const sortedNewsletters = newsletters.sort((a, b) => {
   </section>
 
   <!-- Subscribe Section -->
-  <section class="py-5 bg-light">
+  <!-- <section class="py-5 bg-light">
     <div class="container py-5">
       <div class="row justify-content-center">
         <div class="col-lg-8">
@@ -82,10 +87,62 @@ const sortedNewsletters = newsletters.sort((a, b) => {
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
 </Layout>
 
 <style>
+  .hero-newsletter {
+    margin-top: -76px;
+    padding-top: 150px;
+    padding-bottom: 60px;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: white;
+  }
+
+  .breadcrumb-custom {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+    font-size: 0.95rem;
+  }
+
+  .breadcrumb-custom .breadcrumb-item {
+    color: #ffc107;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .breadcrumb-custom .breadcrumb-item:hover {
+    color: #fff;
+  }
+
+  .breadcrumb-custom .breadcrumb-item.active {
+    color: #ffc107;
+  }
+
+  .breadcrumb-divider {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .newsletter-title {
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #fff;
+  }
+
+  .newsletter-description {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  @media (max-width: 992px) {
+    .newsletter-title {
+      font-size: 2rem;
+    }
+  }
+
   #newsletterForm {
     max-width: 600px;
     margin: 0 auto;

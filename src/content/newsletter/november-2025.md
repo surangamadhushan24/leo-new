@@ -1,10 +1,10 @@
 ---
-title: "November 2025 Community Impact Report"
-date: 2025-11-20
-image: "/images/n7.jpg"
+title: "️February Edition"
+date: 2026-01-10
+image: "/images/newsletter/Feb.jpg"
 category: "Monthly Update"
 description: "November was a month of growth and impact. Learn about our community outreach programs, youth development initiatives, and how our members made a difference."
-anyflip_url: "https://anyflip.com/bqqcm/aldx/"
+anyflip_url: "https://anyflip.com/bqqcm/nhag/"
 ---
 
 ## November Highlights

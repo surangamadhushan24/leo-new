@@ -1,26 +1,11 @@
 ---
-title: "Baddegama Community Cleanup"
-date: 2023-03-15
-image: "/images/news1.jpg"
-category: "Environment"
-impact: "Cleaned 5km of roads, engaged 50+ volunteers"
+title: "Click Safe"
+date: 2025-10-15
+image: "/images/projects/clicksafe.jpeg"
+category: "Education"
+impact: ""
 ---
 
-Organized a massive cleanup campaign across Baddegama town to promote environmental awareness and cleanliness.
+## Click Safe
 
-## Objectives
-- Clean public spaces in Baddegama
-- Raise environmental awareness
-- Engage community participation
-
-## Activities
-- Roadside cleanup
-- Plastic waste collection
-- Awareness sessions for residents
-- Proper waste disposal training
-
-## Impact
-- 5km of roads cleaned
-- 50+ volunteers participated
-- 500kg of waste collected and properly disposed
-- Increased community awareness about waste management
+The “Click Safe” project was developed in response to the growing number of cyber threats faced by students and young adults, including online fraud, cyberbullying, identity theft, and unsafe digital interactions. The community, especially schoolchildren, lacked proper guidance on how to stay safe online, making the need for a structured, educational awareness program evident. Recognizing this requirement, the Leo Club of Baddegama and the Leo Club of Matara Marians collaboratively initiated the idea of conducting a cyber security awareness session. The clubs decided to invite a renowned expert, ensuring that students received accurate, dependable, and practical information. 

@@ -4,10 +4,16 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout title="About Us" description="Learn about BG Leos - Leo Club of Baddegama">
   <!-- Hero Section -->
-  <section class="bg-dark text-white py-5" style="margin-top: -76px; padding-top: 150px !important;">
-    <div class="container py-5 text-center">
-      <h1 class="display-4 fw-bold mb-4">About BG Leos</h1>
-      <p class="lead">Leadership, Experience, Opportunity</p>
+  <section class="hero-about" style="margin-top: -76px; padding-top: 150px; background: linear-gradient(135deg, var(--secondary-color) 0%, #0f0f1e 100%); position: relative; overflow: hidden;">
+    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('/images/hero-1.jpeg'); background-repeat: no-repeat; background-size: cover; opacity: 0.5; animation: float 6s ease-in-out infinite;"></div>
+    
+    <div class="container py-5 text-center text-white position-relative" style="z-index: 2;">
+      <h1 class="display-3 fw-bold mb-4" style="font-size: 3.5rem; font-weight: 800; letter-spacing: -1px; background: linear-gradient(135deg, #fff350, #ffc107, #e0a800); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1.2;">
+        About BG Leos
+      </h1>
+      <p class="lead mb-0" style="font-size: 1.4rem; color: #cbd5e1; line-height: 1.8;">
+        Leadership, Experience, Opportunity
+      </p>
     </div>
   </section>
 
@@ -20,9 +26,7 @@ import Layout from '../layouts/Layout.astro';
             <div class="card-body p-5">
               <h3 class="card-title text-warning mb-4">Our Mission</h3>
               <p class="card-text fs-5">
-                To provide the youth of Baddegama with opportunities for development, 
-                contributing to individual growth and community betterment through 
-                dedicated service projects and leadership experiences.
+                To serve our community hand to hand by initiating meaningful service projects, empowering young individuals through leadership opportunities, and fostering teamwork, responsibility, and social awareness while making a sustainable difference in society.
               </p>
             </div>
           </div>
@@ -32,9 +36,7 @@ import Layout from '../layouts/Layout.astro';
             <div class="card-body p-5">
               <h3 class="card-title text-warning mb-4">Our Vision</h3>
               <p class="card-text fs-5">
-                To be the leading youth organization in Baddegama, recognized for 
-                nurturing responsible leaders who create sustainable positive change 
-                in their communities.
+                To be a leading youth organization that inspires unity, leadership, and compassionate service, creating a positive and lasting impact in the community
               </p>
             </div>
           </div>
@@ -43,112 +45,32 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </section>
 
-  <!-- History -->
+  <!-- About the Club -->
   <section class="py-5 bg-light">
     <div class="container py-5">
-      <h2 class="section-title">Our History</h2>
       <div class="row">
         <div class="col-lg-8 mx-auto">
-          <p class="lead text-center mb-5">
-            Founded in 2018, BG Leos has been serving the Baddegama community for over 5 years.
+          <p class="lead mb-4">
+            The Leo Club of Baddegama is a dynamic youth organization dedicated to community service, leadership development, and personal growth. Functioning under the guidance of Lions Clubs International, our club brings together passionate young individuals who are committed to making a meaningful difference in society.
           </p>
           
-          <div class="timeline">
-            <div class="timeline-item">
-              <div class="timeline-date">2018</div>
-              <div class="timeline-content">
-                <h4>Club Formation</h4>
-                <p>Leo Club of Baddegama was officially chartered with 25 founding members.</p>
-              </div>
-            </div>
-            
-            <div class="timeline-item">
-              <div class="timeline-date">2019</div>
-              <div class="timeline-content">
-                <h4>First Major Project</h4>
-                <p>Successfully organized the "Clean Baddegama" campaign, engaging 100+ volunteers.</p>
-              </div>
-            </div>
-            
-            <div class="timeline-item">
-              <div class="timeline-date">2021</div>
-              <div class="timeline-content">
-                <h4>Pandemic Response</h4>
-                <p>Distributed essential supplies to 500+ families affected by COVID-19.</p>
-              </div>
-            </div>
-            
-            <div class="timeline-item">
-              <div class="timeline-date">2023</div>
-              <div class="timeline-content">
-                <h4>5th Anniversary</h4>
-                <p>Celebrated 5 years of service with 85+ active members and 40+ completed projects.</p>
-              </div>
-            </div>
-          </div>
+          <p class="mb-4">
+            Since its establishment, the Leo Club of Baddegama has actively engaged in a wide range of service projects focusing on areas such as education, healthcare, environmental sustainability, and social welfare. From organizing awareness programs and community development initiatives to supporting those in need, we strive to serve with compassion, unity, and responsibility.
+          </p>
+          
+          <p class="mb-4">
+            Guided by our club motto, "Hand to Hand," we believe in working together, supporting one another, and uplifting our community through collective effort. This spirit of unity drives every project we undertake and every life we touch.
+          </p>
+          
+          <p class="mb-4">
+            Our club also provides a platform for young leaders to develop essential skills such as teamwork, communication, and project management. Through fellowship and collaboration, we nurture individuals to become responsible citizens and future leaders.
+          </p>
+          
+          <p class="mb-0">
+            Inspired by the Leo motto, "Leadership, Experience, Opportunity," we continue to grow stronger while creating a lasting impact in our community.
+          </p>
         </div>
       </div>
     </div>
   </section>
-
-  <!-- Executive Committee -->
-  <section class="py-5">
-    <div class="container py-5">
-      <h2 class="section-title">Executive Committee 2023/24</h2>
-      
-      <div class="row">
-        <!-- Repeat for each committee member -->
-        <div class="col-lg-3 col-md-6 mb-4">
-          <div class="card border-0 shadow-sm text-center h-100">
-            <img src="/images/team/president.jpg" class="card-img-top" alt="President">
-            <div class="card-body">
-              <h5 class="card-title">John Doe</h5>
-              <p class="card-text text-warning">President</p>
-            </div>
-          </div>
-        </div>
-        <!-- Add more members similarly -->
-      </div>
-    </div>
-  </section>
-
-  <style>
-    .timeline {
-      position: relative;
-      padding-left: 30px;
-    }
-    
-    .timeline:before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 2px;
-      background: var(--primary-color);
-    }
-    
-    .timeline-item {
-      position: relative;
-      margin-bottom: 30px;
-    }
-    
-    .timeline-item:before {
-      content: '';
-      position: absolute;
-      left: -36px;
-      top: 5px;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: var(--primary-color);
-      border: 3px solid white;
-    }
-    
-    .timeline-date {
-      font-weight: bold;
-      color: var(--primary-color);
-      margin-bottom: 5px;
-    }
-  </style>
 </Layout>

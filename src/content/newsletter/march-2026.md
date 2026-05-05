@@ -1,10 +1,10 @@
 ---
-title: "December 2025 Year-End Report"
-date: 2025-12-15
-image: "/images/n4.jpg"
+title: "️March Edition "
+date: 2026-03-01
+image: "/images/newsletter/March.jpg"
 category: "Monthly Update"
 description: "As we wrap up 2025, we're proud to celebrate the achievements of our Leo Club. From 42 completed projects to 36 organized events, here's a summary of our year."
-anyflip_url: "https://anyflip.com/bqqcm/aldx/"
+anyflip_url: "https://anyflip.com/bqqcm/izfa/"
 ---
 
 ## 2025 - A Year of Impact

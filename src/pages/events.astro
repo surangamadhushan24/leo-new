@@ -2,7 +2,13 @@
 import Layout from '../layouts/Layout.astro';
 import EventCard from '../components/EventCard.astro';
 
-const events = await Astro.glob('../content/events/*.md');
+let events = [];
+try {
+  events = await Astro.glob('../content/events/*.md');
+} catch (error) {
+  events = [];
+}
+
 const sortedEvents = events.sort((a, b) => {
   const dateA = new Date(a.frontmatter.date || 0);
   const dateB = new Date(b.frontmatter.date || 0);
@@ -22,10 +28,16 @@ const pastEvents = sortedEvents.filter(event => {
 
 <Layout title="Events" description="Upcoming and past events of BG Leos">
   <!-- Hero Section -->
-  <section class="bg-dark text-white py-5" style="margin-top: -76px; padding-top: 150px !important;">
-    <div class="container py-5 text-center">
-      <h1 class="display-4 fw-bold mb-4">Our Events</h1>
-      <p class="lead">Join us in activities that make a difference</p>
+  <section class="hero-events" style="margin-top: -76px; padding-top: 150px; background: linear-gradient(135deg, var(--secondary-color) 0%, #0f0f1e 100%); position: relative; overflow: hidden;">
+    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('/images/hero-1.jpeg'); background-repeat: no-repeat; background-size: cover; opacity: 0.5; animation: float 6s ease-in-out infinite;"></div>
+    
+    <div class="container py-5 text-center text-white position-relative" style="z-index: 2;">
+      <h1 class="display-3 fw-bold mb-4" style="font-size: 3.5rem; font-weight: 800; letter-spacing: -1px; background: linear-gradient(135deg, #fff350, #ffc107, #e0a800); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1.2;">
+        Our Events
+      </h1>
+      <p class="lead mb-0" style="font-size: 1.4rem; color: #cbd5e1; line-height: 1.8;">
+        Join us in activities that make a difference
+      </p>
     </div>
   </section>
 
