@@ -65,6 +65,12 @@ const { title, description = 'Leo Club of Baddegama - Making a difference throug
   <link rel="canonical" href={url || `https://bgleo.netlify.app${Astro.url.pathname}`}>
   <link rel="sitemap" href="/sitemap.xml">
   
+  <!-- Preload critical images -->
+  <link rel="preload" href="/images/hero-1.jpeg" as="image" type="image/jpeg">
+  <link rel="preload" href="/images/hero-2.jpeg" as="image" type="image/jpeg">
+  <link rel="preload" href="/images/hero-3.jpeg" as="image" type="image/jpeg">
+  <link rel="preload" href="/images/logo.png" as="image" type="image/png">
+  
   <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">

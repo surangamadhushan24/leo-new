@@ -28,10 +28,22 @@ const slug = getSlug();
 <div class="project-card h-100">
   <div class="project-hero">
     {frontmatter.image ? (
-      <img src={frontmatter.image} class="project-image" alt={frontmatter.title} />
+      <img 
+        src={frontmatter.image} 
+        class="project-image" 
+        alt={frontmatter.title}
+        loading="lazy"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+      />
     ) : (
       <div class="project-image project-image-fallback"></div>
     )}
+    <div class="project-image project-image-fallback" style="display: none;">
+      <div class="fallback-content">
+        <i class="fas fa-image"></i>
+        <span>Image not available</span>
+      </div>
+    </div>
     <div class="project-hero-overlay"></div>
     <!-- {frontmatter.category && <span class="project-category">{frontmatter.category}</span>} -->
     {frontmatter.date && (
@@ -183,5 +195,26 @@ const slug = getSlug();
   .project-cta:hover {
     transform: translateY(-2px);
     box-shadow: 0 18px 32px rgba(255, 193, 7, 0.25);
+  }
+
+  .project-image-fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--secondary-color), #0f0f1e);
+    color: var(--primary-color);
+    min-height: 200px;
+  }
+
+  .fallback-content {
+    text-align: center;
+    font-size: 1.2rem;
+  }
+
+  .fallback-content i {
+    display: block;
+    font-size: 2rem;
+    margin-bottom: 8px;
+    opacity: 0.7;
   }
 </style>
