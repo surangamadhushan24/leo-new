@@ -31,11 +31,6 @@ astro.db
 # Logs
 logs/
 *.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
 
 # Runtime data
 pids/
@@ -43,52 +38,20 @@ pids/
 *.seed
 *.pid.lock
 
-# Coverage directory used by tools like istanbul
+# Coverage directory
 coverage/
 *.lcov
 .nyc_output/
 
+# Gatsby / Static Site Folders
+.cache/
+# Allow the public folder but ignore common generated build files inside it
+# (This allows your /public/images/ to be tracked)
+# public  <-- Removed this to allow your images
+
 # Dependency directories
 jspm_packages/
-
-# Optional npm cache directory
 .npm
-
-# Optional eslint cache
-.eslintcache
-
-# Optional REPL history
-.node_repl_history
-
-# Output of 'npm pack'
-*.tgz
-
-# Yarn Integrity file
-.yarn-integrity
-
-# parcel-bundler cache (https://parceljs.org/)
-.cache
-.parcel-cache
-
-# Next.js build output
-.next
-
-# Nuxt.js build / generate output
-.nuxt
-
-# Gatsby files
-.cache/
-public
-
-# Storybook build outputs
-.out
-.storybook-out
-
-# Temporary folders
-tmp/
-temp/
-.tmp/
-.temp/
 
 # Editor directories and files
 .vscode/
@@ -101,7 +64,6 @@ temp/
 .c9/
 *.launch
 .settings/
-.vscode/
 .history/
 
 # OS generated files
@@ -113,111 +75,37 @@ temp/
 ehthumbs.db
 Thumbs.db
 Desktop.ini
-
-# Windows
-Thumbs.db
-ehthumbs.db
-Desktop.ini
 $RECYCLE.BIN/
 
-# Linux
-*~
-.fuse_hidden*
-.directory
-.Trash-*
-.nfs*
-
-# macOS
-.DS_Store
-.AppleDouble
-.LSOverride
-Icon
-._*
-.DocumentRevisions-V100
-.fseventsd
-.Spotlight-V100
-.TemporaryItems
-.Trashes
-.VolumeIcon.icns
-.com.apple.timemachine.donotpresent
-
-# JetBrains IDEs
-.idea/
+# JetBrains / VS Code
 *.iml
 *.ipr
 *.iws
-
-# VS Code
-.vscode/
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
 
-# Local Netlify folder
-.netlify/
-
-# Vercel
-.vercel/
-
 # TypeScript
 *.tsbuildinfo
 
-# Optional stylelint cache
-.stylelintcache
-
-# Microbundle cache
-.rpt2_cache/
-.rts2_cache_cjs/
-.rts2_cache_es/
-.rts2_cache_umd/
-
-# Optional REPL history
-.node_repl_history
-
-# Output of 'npm pack'
-*.tgz
-
-# Yarn Integrity file
-.yarn-integrity
-
-# dotenv environment variables file
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# parcel-bundler cache (https://parceljs.org/)
-.cache
-.parcel-cache
-
-# Stores VSCode versions used for testing VSCode extensions
-.vscode-test
-
-# yarn v2
+# Yarn v2
 .yarn/cache
 .yarn/unplugged
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
 
-# Turbo
-.turbo/
-
-# Sentry Config File
-.sentryclirc
-
-# Database
+# Database & Testing
 *.db
 *.sqlite
 *.sqlite3
-
-# Testing
 test-results/
 playwright-report/
 playwright/.cache/
 
-# Miscellaneous
-.cache/
-*.tgz
-*.tar.gz
+# Specific ignores for generated files in public (Optional)
+# If your build process generates these, uncomment them:
+# public/*.html
+# public/*.js
+# public/*.css
