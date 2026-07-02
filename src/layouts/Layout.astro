@@ -12,6 +12,38 @@ export interface Props {
 }
 
 const { title, description = 'Leo Club of Baddegama - Making a difference through leadership and service', image, url } = Astro.props;
+const siteUrl = 'https://bgleo.netlify.app';
+const canonicalUrl = url || `${siteUrl}${Astro.url.pathname}`;
+const normalizedImage = image
+  ? (image.startsWith('http') ? image : `${siteUrl}${image}`)
+  : `${siteUrl}/images/hero-1.jpeg`;
+const pageTitle = title === 'Home' ? 'Leo Club of Baddegama | BG Leos' : `${title} | BG Leos`;
+const pageDescription = description || 'BG Leos is the Leo Club of Baddegama, inspiring young leaders through community service, projects, and leadership development.';
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'BG Leos',
+  url: siteUrl,
+  logo: `${siteUrl}/images/logo.png`,
+  description: pageDescription,
+  sameAs: [
+    'https://www.facebook.com/bgleos',
+    'https://www.instagram.com/leosofbaddegama/',
+    'https://www.youtube.com/@leo.club.of.baddegama',
+    'https://whatsapp.com/channel/0029Vb7K1d8Fy72CMkQ9O13G'
+  ],
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Baddegama',
+    addressRegion: 'Galle',
+    addressCountry: 'LK'
+  },
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'general inquiry',
+    email: 'info@bgleos.org'
+  }
+};
 ---
 
 <!DOCTYPE html>
@@ -20,23 +52,23 @@ const { title, description = 'Leo Club of Baddegama - Making a difference throug
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="google-site-verification" content="YHDFbNSUFkx3JC2pw0rzhISw8LG40GCEZFyyRqJC7lU" />
-  <title>{title} | BG Leos</title>
-  <meta name="description" content={description}>
+  <title>{pageTitle}</title>
+  <meta name="description" content={pageDescription}>
   
   <!-- SEO Meta Tags -->
   <SEO
-    title={title}
-    description={description}
-    canonical={url || `https://bgleo.netlify.app${Astro.url.pathname}`}
+    title={pageTitle}
+    description={pageDescription}
+    canonical={canonicalUrl}
     openGraph={{
       basic: {
-        title: `${title} | BG Leos`,
+        title: pageTitle,
         type: 'website',
-        image: image || 'https://bgleo.netlify.app/images/hero-1.jpeg',
-        url: url || `https://bgleo.netlify.app${Astro.url.pathname}`,
+        image: normalizedImage,
+        url: canonicalUrl,
       },
       optional: {
-        description: description,
+        description: pageDescription,
         siteName: 'BG Leos - Leo Club of Baddegama',
       },
     }}
@@ -44,9 +76,9 @@ const { title, description = 'Leo Club of Baddegama - Making a difference throug
       card: 'summary_large_image',
       site: '@bgleos',
       creator: '@bgleos',
-      title: `${title} | BG Leos`,
-      description: description,
-      image: image || 'https://bgleo.netlify.app/images/hero-1.jpeg',
+      title: pageTitle,
+      description: pageDescription,
+      image: normalizedImage,
     }}
   />
   
@@ -60,11 +92,15 @@ const { title, description = 'Leo Club of Baddegama - Making a difference throug
   <!-- Additional SEO Meta Tags -->
   <meta name="keywords" content="Leo Club, Baddegama, BG Leos, community service, leadership, youth organization, Sri Lanka, Lions Clubs International, volunteering, social welfare">
   <meta name="author" content="Leo Club of Baddegama">
-  <meta name="robots" content="index, follow">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <meta name="language" content="English">
   <meta name="revisit-after" content="7 days">
-  <link rel="canonical" href={url || `https://bgleo.netlify.app${Astro.url.pathname}`}>
+  <meta property="og:locale" content="en_US">
+  <meta property="og:site_name" content="BG Leos">
+  <meta property="og:image:alt" content={pageTitle}>
+  <link rel="canonical" href={canonicalUrl}>
   <link rel="sitemap" href="/sitemap-index.xml">
+  <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)}></script>
   
   <!-- Preload critical images -->
   <link rel="preload" href="/images/hero-1.jpeg" as="image" type="image/jpeg">
