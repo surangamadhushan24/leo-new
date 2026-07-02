@@ -1,0 +1,68 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ExecutiveCommitteeCarousel from '../components/ExecutiveCommitteeCarousel.astro';
+
+let committeeMembers: any[] = [];
+
+try {
+  const committeeModules = import.meta.glob('../content/committee/*.md');
+  const committeePaths = Object.keys(committeeModules);
+  committeeMembers = await Promise.all(
+    committeePaths.map(async (path) => {
+      const module = await committeeModules[path]();
+      return { ...(module as any), file: path };
+    }),
+  );
+} catch (e) {
+  committeeMembers = [];
+}
+
+const sortedCommittee = committeeMembers.sort((a, b) =>
+  ((a as any).file || '').localeCompare((b as any).file || '')
+);
+const visibleCommittee = sortedCommittee.slice(0, 5);
+---
+
+<Layout title="Leaders" description="Meet the executive committee of BG Leos and learn about the leaders guiding our club.">
+  <section class="py-5" style="padding-top: 120px !important;">
+    <div class="container">
+      <div class="text-center mb-5">
+        <span class="pill-badge">Our Leaders</span>
+        <h1 class="sec-heading mt-3 mb-3">Executive Committee</h1>
+        <p class="lead text-muted">Meet the dedicated leaders guiding BG Leos through service, leadership, and community impact.</p>
+      </div>
+
+      {visibleCommittee.length > 0 ? (
+        <ExecutiveCommitteeCarousel members={visibleCommittee} />
+      ) : (
+        <div class="text-center py-4">
+          <div class="feat-icon mx-auto mb-3" style="width:64px;height:64px;">
+            <i class="fas fa-users fa-2x"></i>
+          </div>
+          <h4 style="color:var(--navy);font-weight:700;">Committee Coming Soon</h4>
+          <p class="text-muted">Our executive committee information will be available shortly.</p>
+        </div>
+      )}
+    </div>
+  </section>
+</Layout>
+
+<style is:inline>
+  .pill-badge {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    background: rgba(255, 193, 7, 0.15);
+    color: #b8860b;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.8rem;
+  }
+
+  .sec-heading {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--navy);
+  }
+</style>
