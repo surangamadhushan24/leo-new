@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://bgleo.netlify.app/sitemap-index.xml
+Sitemap: https://bgleo.netlify.app/sitemap.xml

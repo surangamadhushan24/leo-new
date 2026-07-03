@@ -54,6 +54,17 @@ const formattedTime = date.toLocaleTimeString('en-US', {
   hour: '2-digit', 
   minute: '2-digit' 
 });
+const eventSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: frontmatter.title,
+  description: frontmatter.description || '',
+  startDate: frontmatter.date || undefined,
+  url: `https://bgleo.netlify.app${Astro.url.pathname}`,
+  location: frontmatter.location ? { '@type': 'Place', name: frontmatter.location } : undefined,
+  image: frontmatter.image ? (frontmatter.image.startsWith('http') ? frontmatter.image : `https://bgleo.netlify.app${frontmatter.image}`) : undefined,
+};
+
 ---
 
 <Layout title={frontmatter.title} description={frontmatter.description}>
@@ -555,6 +566,8 @@ const formattedTime = date.toLocaleTimeString('en-US', {
     </div>
   </section>
 </Layout>
+
+<script type="application/ld+json" set:html={JSON.stringify(eventSchema)}></script>
 
 <style>
   .breadcrumb-dark {

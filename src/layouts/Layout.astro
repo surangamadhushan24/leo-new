@@ -103,8 +103,21 @@ const organizationSchema = {
   <meta property="og:site_name" content="BG Leos">
   <meta property="og:image:alt" content={pageTitle}>
   <link rel="canonical" href={canonicalUrl}>
-  <link rel="sitemap" href="/sitemap-index.xml">
+  <link rel="sitemap" href="/sitemap.xml">
   <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)}></script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Leo Club of Baddegama",
+      "url": "https://bgleo.netlify.app",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://bgleo.netlify.app/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+  </script>
   
   <!-- Preload critical images -->
   <link rel="preload" href="/images/hero-1.jpeg" as="image" type="image/jpeg">

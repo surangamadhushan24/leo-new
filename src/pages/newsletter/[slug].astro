@@ -44,7 +44,17 @@ const formattedDate = date.toLocaleDateString('en-US', {
   month: 'long', 
   day: 'numeric' 
 });
----
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: frontmatter.title,
+  description: frontmatter.description || '',
+  image: frontmatter.image ? (frontmatter.image.startsWith('http') ? frontmatter.image : `https://bgleo.netlify.app${frontmatter.image}`) : undefined,
+  datePublished: frontmatter.date || undefined,
+  author: { '@type': 'Organization', 'name': 'Leo Club of Baddegama' },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': `https://bgleo.netlify.app${Astro.url.pathname}` }
+};
 
 <Layout title={frontmatter.title} description={frontmatter.description}>
   <!-- Hero Section -->
@@ -104,6 +114,7 @@ const formattedDate = date.toLocaleDateString('en-US', {
       </div>
     </div>
   </section>
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema)}></script>
 </Layout>
 
 <style>
